@@ -1,5 +1,6 @@
 const { generateKeyPairSync, createSign, createVerify } = require("crypto");
 
+// RSA algorithm
 const { publicKey, privateKey } = generateKeyPairSync("rsa", {
   modulusLength: 4096,
   publicKeyEncoding: {
