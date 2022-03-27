@@ -1,0 +1,15 @@
+- hosts: dev
+  name: deployment
+  remote_user: deploy
+  become: yes
+  tasks:
+    - name: deploy to dev env
+      shell: |
+        pwd
+        cd /home/deploy/uhome-server
+        git reset --hard HEAD
+        git pull
+        npm i
+        npm run build
+        npx sequelize db:migrate
+        pm2 restart all
