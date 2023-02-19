@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body>
+    <h1>The picture element</h1>
+
+    <p>Resize the browser window to load different images.</p>
+
+    <p>SRCSET attr, load the small image first with corresponding screen size.</p>
+    <picture>
+      <source media="(min-width:650px)" srcset="https://www.w3schools.com/tags/img_pink_flowers.jpg">
+      <source media="(min-width:465px)" srcset="https://www.w3schools.com/tags/img_white_flower.jpg">
+      <img src="https://www.w3schools.com/tags/img_orange_flowers.jpg" alt="Flowers" style="width:auto;">
+    </picture>
+    <img
+      srcset="
+      https://www.w3schools.com/tags/img_pink_flowers.jpg  1600w,
+      https://www.w3schools.com/tags/img_white_flower.jpg  1200w,
+      https://www.w3schools.com/tags/img_orange_flowers.jpg 800w
+      "
+      alt="Flowers"
+      loading="lazy"
+      decoding="async"
+      style="width: 100%;
+        aspect-ratio: 5 / 3;
+        width: 100%;
+        /* Fill the available space, even if the 
+           image has a different intrinsic aspect ratio */
+        object-fit: cover; 
+      "
+    />
+  </body>
+</html>
