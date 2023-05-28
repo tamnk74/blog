@@ -11,6 +11,8 @@
 
 ### Database
 
+- [DBMS architecture overview](https://tamnk74.github.io/blog/database/dbms_architecture_overview.html)
+
 ## Front-End
 
 ### Html CSS

@@ -1,0 +1,1406 @@
+<html>
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>DBMS (Database Management System)</title>
+	<style>
+		/* cspell:disable-file */
+		/* webkit printing magic: print all background colors */
+		html {
+			-webkit-print-color-adjust: exact;
+		}
+
+		* {
+			box-sizing: border-box;
+			-webkit-print-color-adjust: exact;
+		}
+
+		html,
+		body {
+			margin: 0;
+			padding: 0;
+		}
+
+		@media only screen {
+			body {
+				margin: 2em auto;
+				max-width: 900px;
+				color: rgb(55, 53, 47);
+			}
+		}
+
+		body {
+			line-height: 1.5;
+		}
+
+		a,
+		a.visited {
+			color: inherit;
+			text-decoration: underline;
+		}
+
+		.pdf-relative-link-path {
+			font-size: 80%;
+			color: #444;
+		}
+
+		h1,
+		h2,
+		h3 {
+			letter-spacing: -0.01em;
+			line-height: 1.2;
+			font-weight: 600;
+			margin-bottom: 0;
+		}
+
+		.page-title {
+			font-size: 2.5rem;
+			font-weight: 700;
+			margin-top: 0;
+			margin-bottom: 0.75em;
+		}
+
+		h1 {
+			font-size: 1.875rem;
+			margin-top: 1.875rem;
+		}
+
+		h2 {
+			font-size: 1.5rem;
+			margin-top: 1.5rem;
+		}
+
+		h3 {
+			font-size: 1.25rem;
+			margin-top: 1.25rem;
+		}
+
+		.source {
+			border: 1px solid #ddd;
+			border-radius: 3px;
+			padding: 1.5em;
+			word-break: break-all;
+		}
+
+		.callout {
+			border-radius: 3px;
+			padding: 1rem;
+		}
+
+		figure {
+			margin: 1.25em 0;
+			page-break-inside: avoid;
+		}
+
+		figcaption {
+			opacity: 0.5;
+			font-size: 85%;
+			margin-top: 0.5em;
+		}
+
+		mark {
+			background-color: transparent;
+		}
+
+		.indented {
+			padding-left: 1.5em;
+		}
+
+		hr {
+			background: transparent;
+			display: block;
+			width: 100%;
+			height: 1px;
+			visibility: visible;
+			border: none;
+			border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+		}
+
+		img {
+			max-width: 100%;
+		}
+
+		@media only print {
+			img {
+				max-height: 100vh;
+				object-fit: contain;
+			}
+		}
+
+		@page {
+			margin: 1in;
+		}
+
+		.collection-content {
+			font-size: 0.875rem;
+		}
+
+		.column-list {
+			display: flex;
+			justify-content: space-between;
+		}
+
+		.column {
+			padding: 0 1em;
+		}
+
+		.column:first-child {
+			padding-left: 0;
+		}
+
+		.column:last-child {
+			padding-right: 0;
+		}
+
+		.table_of_contents-item {
+			display: block;
+			font-size: 0.875rem;
+			line-height: 1.3;
+			padding: 0.125rem;
+		}
+
+		.table_of_contents-indent-1 {
+			margin-left: 1.5rem;
+		}
+
+		.table_of_contents-indent-2 {
+			margin-left: 3rem;
+		}
+
+		.table_of_contents-indent-3 {
+			margin-left: 4.5rem;
+		}
+
+		.table_of_contents-link {
+			text-decoration: none;
+			opacity: 0.7;
+			border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+		}
+
+		table,
+		th,
+		td {
+			border: 1px solid rgba(55, 53, 47, 0.09);
+			border-collapse: collapse;
+		}
+
+		table {
+			border-left: none;
+			border-right: none;
+		}
+
+		th,
+		td {
+			font-weight: normal;
+			padding: 0.25em 0.5em;
+			line-height: 1.5;
+			min-height: 1.5em;
+			text-align: left;
+		}
+
+		th {
+			color: rgba(55, 53, 47, 0.6);
+		}
+
+		ol,
+		ul {
+			margin: 0;
+			margin-block-start: 0.6em;
+			margin-block-end: 0.6em;
+		}
+
+		li>ol:first-child,
+		li>ul:first-child {
+			margin-block-start: 0.6em;
+		}
+
+		ul>li {
+			list-style: disc;
+		}
+
+		ul.to-do-list {
+			padding-inline-start: 0;
+		}
+
+		ul.to-do-list>li {
+			list-style: none;
+		}
+
+		.to-do-children-checked {
+			text-decoration: line-through;
+			opacity: 0.375;
+		}
+
+		ul.toggle>li {
+			list-style: none;
+		}
+
+		ul {
+			padding-inline-start: 1.7em;
+		}
+
+		ul>li {
+			padding-left: 0.1em;
+		}
+
+		ol {
+			padding-inline-start: 1.6em;
+		}
+
+		ol>li {
+			padding-left: 0.2em;
+		}
+
+		.mono ol {
+			padding-inline-start: 2em;
+		}
+
+		.mono ol>li {
+			text-indent: -0.4em;
+		}
+
+		.toggle {
+			padding-inline-start: 0em;
+			list-style-type: none;
+		}
+
+		/* Indent toggle children */
+		.toggle>li>details {
+			padding-left: 1.7em;
+		}
+
+		.toggle>li>details>summary {
+			margin-left: -1.1em;
+		}
+
+		.selected-value {
+			display: inline-block;
+			padding: 0 0.5em;
+			background: rgba(206, 205, 202, 0.5);
+			border-radius: 3px;
+			margin-right: 0.5em;
+			margin-top: 0.3em;
+			margin-bottom: 0.3em;
+			white-space: nowrap;
+		}
+
+		.collection-title {
+			display: inline-block;
+			margin-right: 1em;
+		}
+
+		.page-description {
+			margin-bottom: 2em;
+		}
+
+		.simple-table {
+			margin-top: 1em;
+			font-size: 0.875rem;
+			empty-cells: show;
+		}
+
+		.simple-table td {
+			height: 29px;
+			min-width: 120px;
+		}
+
+		.simple-table th {
+			height: 29px;
+			min-width: 120px;
+		}
+
+		.simple-table-header-color {
+			background: rgb(247, 246, 243);
+			color: black;
+		}
+
+		.simple-table-header {
+			font-weight: 500;
+		}
+
+		time {
+			opacity: 0.5;
+		}
+
+		.icon {
+			display: inline-block;
+			max-width: 1.2em;
+			max-height: 1.2em;
+			text-decoration: none;
+			vertical-align: text-bottom;
+			margin-right: 0.5em;
+		}
+
+		img.icon {
+			border-radius: 3px;
+		}
+
+		.user-icon {
+			width: 1.5em;
+			height: 1.5em;
+			border-radius: 100%;
+			margin-right: 0.5rem;
+		}
+
+		.user-icon-inner {
+			font-size: 0.8em;
+		}
+
+		.text-icon {
+			border: 1px solid #000;
+			text-align: center;
+		}
+
+		.page-cover-image {
+			display: block;
+			object-fit: cover;
+			width: 100%;
+			max-height: 30vh;
+		}
+
+		.page-header-icon {
+			font-size: 3rem;
+			margin-bottom: 1rem;
+		}
+
+		.page-header-icon-with-cover {
+			margin-top: -0.72em;
+			margin-left: 0.07em;
+		}
+
+		.page-header-icon img {
+			border-radius: 3px;
+		}
+
+		.link-to-page {
+			margin: 1em 0;
+			padding: 0;
+			border: none;
+			font-weight: 500;
+		}
+
+		p>.user {
+			opacity: 0.5;
+		}
+
+		td>.user,
+		td>time {
+			white-space: nowrap;
+		}
+
+		input[type="checkbox"] {
+			transform: scale(1.5);
+			margin-right: 0.6em;
+			vertical-align: middle;
+		}
+
+		p {
+			margin-top: 0.5em;
+			margin-bottom: 0.5em;
+		}
+
+		.image {
+			border: none;
+			margin: 1.5em 0;
+			padding: 0;
+			border-radius: 0;
+			text-align: center;
+		}
+
+		.code,
+		code {
+			background: rgba(135, 131, 120, 0.15);
+			border-radius: 3px;
+			padding: 0.2em 0.4em;
+			border-radius: 3px;
+			font-size: 85%;
+			tab-size: 2;
+		}
+
+		code {
+			color: #eb5757;
+		}
+
+		.code {
+			padding: 1.5em 1em;
+		}
+
+		.code-wrap {
+			white-space: pre-wrap;
+			word-break: break-all;
+		}
+
+		.code>code {
+			background: none;
+			padding: 0;
+			font-size: 100%;
+			color: inherit;
+		}
+
+		blockquote {
+			font-size: 1.25em;
+			margin: 1em 0;
+			padding-left: 1em;
+			border-left: 3px solid rgb(55, 53, 47);
+		}
+
+		.bookmark {
+			text-decoration: none;
+			max-height: 8em;
+			padding: 0;
+			display: flex;
+			width: 100%;
+			align-items: stretch;
+		}
+
+		.bookmark-title {
+			font-size: 0.85em;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			height: 1.75em;
+			white-space: nowrap;
+		}
+
+		.bookmark-text {
+			display: flex;
+			flex-direction: column;
+		}
+
+		.bookmark-info {
+			flex: 4 1 180px;
+			padding: 12px 14px 14px;
+			display: flex;
+			flex-direction: column;
+			justify-content: space-between;
+		}
+
+		.bookmark-image {
+			width: 33%;
+			flex: 1 1 180px;
+			display: block;
+			position: relative;
+			object-fit: cover;
+			border-radius: 1px;
+		}
+
+		.bookmark-description {
+			color: rgba(55, 53, 47, 0.6);
+			font-size: 0.75em;
+			overflow: hidden;
+			max-height: 4.5em;
+			word-break: break-word;
+		}
+
+		.bookmark-href {
+			font-size: 0.75em;
+			margin-top: 0.25em;
+		}
+
+		.sans {
+			font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
+		}
+
+		.code {
+			font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace;
+		}
+
+		.serif {
+			font-family: Lyon-Text, Georgia, ui-serif, serif;
+		}
+
+		.mono {
+			font-family: iawriter-mono, Nitti, Menlo, Courier, monospace;
+		}
+
+		.pdf .sans {
+			font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP';
+		}
+
+		.pdf:lang(zh-CN) .sans {
+			font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC';
+		}
+
+		.pdf:lang(zh-TW) .sans {
+			font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC';
+		}
+
+		.pdf:lang(ko-KR) .sans {
+			font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR';
+		}
+
+		.pdf .code {
+			font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP';
+		}
+
+		.pdf:lang(zh-CN) .code {
+			font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC';
+		}
+
+		.pdf:lang(zh-TW) .code {
+			font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC';
+		}
+
+		.pdf:lang(ko-KR) .code {
+			font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR';
+		}
+
+		.pdf .serif {
+			font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP';
+		}
+
+		.pdf:lang(zh-CN) .serif {
+			font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC';
+		}
+
+		.pdf:lang(zh-TW) .serif {
+			font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC';
+		}
+
+		.pdf:lang(ko-KR) .serif {
+			font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR';
+		}
+
+		.pdf .mono {
+			font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP';
+		}
+
+		.pdf:lang(zh-CN) .mono {
+			font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC';
+		}
+
+		.pdf:lang(zh-TW) .mono {
+			font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC';
+		}
+
+		.pdf:lang(ko-KR) .mono {
+			font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR';
+		}
+
+		.highlight-default {
+			color: rgba(55, 53, 47, 1);
+		}
+
+		.highlight-gray {
+			color: rgba(120, 119, 116, 1);
+			fill: rgba(120, 119, 116, 1);
+		}
+
+		.highlight-brown {
+			color: rgba(159, 107, 83, 1);
+			fill: rgba(159, 107, 83, 1);
+		}
+
+		.highlight-orange {
+			color: rgba(217, 115, 13, 1);
+			fill: rgba(217, 115, 13, 1);
+		}
+
+		.highlight-yellow {
+			color: rgba(203, 145, 47, 1);
+			fill: rgba(203, 145, 47, 1);
+		}
+
+		.highlight-teal {
+			color: rgba(68, 131, 97, 1);
+			fill: rgba(68, 131, 97, 1);
+		}
+
+		.highlight-blue {
+			color: rgba(51, 126, 169, 1);
+			fill: rgba(51, 126, 169, 1);
+		}
+
+		.highlight-purple {
+			color: rgba(144, 101, 176, 1);
+			fill: rgba(144, 101, 176, 1);
+		}
+
+		.highlight-pink {
+			color: rgba(193, 76, 138, 1);
+			fill: rgba(193, 76, 138, 1);
+		}
+
+		.highlight-red {
+			color: rgba(212, 76, 71, 1);
+			fill: rgba(212, 76, 71, 1);
+		}
+
+		.highlight-gray_background {
+			background: rgba(241, 241, 239, 1);
+		}
+
+		.highlight-brown_background {
+			background: rgba(244, 238, 238, 1);
+		}
+
+		.highlight-orange_background {
+			background: rgba(251, 236, 221, 1);
+		}
+
+		.highlight-yellow_background {
+			background: rgba(251, 243, 219, 1);
+		}
+
+		.highlight-teal_background {
+			background: rgba(237, 243, 236, 1);
+		}
+
+		.highlight-blue_background {
+			background: rgba(231, 243, 248, 1);
+		}
+
+		.highlight-purple_background {
+			background: rgba(244, 240, 247, 0.8);
+		}
+
+		.highlight-pink_background {
+			background: rgba(249, 238, 243, 0.8);
+		}
+
+		.highlight-red_background {
+			background: rgba(253, 235, 236, 1);
+		}
+
+		.block-color-default {
+			color: inherit;
+			fill: inherit;
+		}
+
+		.block-color-gray {
+			color: rgba(120, 119, 116, 1);
+			fill: rgba(120, 119, 116, 1);
+		}
+
+		.block-color-brown {
+			color: rgba(159, 107, 83, 1);
+			fill: rgba(159, 107, 83, 1);
+		}
+
+		.block-color-orange {
+			color: rgba(217, 115, 13, 1);
+			fill: rgba(217, 115, 13, 1);
+		}
+
+		.block-color-yellow {
+			color: rgba(203, 145, 47, 1);
+			fill: rgba(203, 145, 47, 1);
+		}
+
+		.block-color-teal {
+			color: rgba(68, 131, 97, 1);
+			fill: rgba(68, 131, 97, 1);
+		}
+
+		.block-color-blue {
+			color: rgba(51, 126, 169, 1);
+			fill: rgba(51, 126, 169, 1);
+		}
+
+		.block-color-purple {
+			color: rgba(144, 101, 176, 1);
+			fill: rgba(144, 101, 176, 1);
+		}
+
+		.block-color-pink {
+			color: rgba(193, 76, 138, 1);
+			fill: rgba(193, 76, 138, 1);
+		}
+
+		.block-color-red {
+			color: rgba(212, 76, 71, 1);
+			fill: rgba(212, 76, 71, 1);
+		}
+
+		.block-color-gray_background {
+			background: rgba(241, 241, 239, 1);
+		}
+
+		.block-color-brown_background {
+			background: rgba(244, 238, 238, 1);
+		}
+
+		.block-color-orange_background {
+			background: rgba(251, 236, 221, 1);
+		}
+
+		.block-color-yellow_background {
+			background: rgba(251, 243, 219, 1);
+		}
+
+		.block-color-teal_background {
+			background: rgba(237, 243, 236, 1);
+		}
+
+		.block-color-blue_background {
+			background: rgba(231, 243, 248, 1);
+		}
+
+		.block-color-purple_background {
+			background: rgba(244, 240, 247, 0.8);
+		}
+
+		.block-color-pink_background {
+			background: rgba(249, 238, 243, 0.8);
+		}
+
+		.block-color-red_background {
+			background: rgba(253, 235, 236, 1);
+		}
+
+		.select-value-color-pink {
+			background-color: rgba(245, 224, 233, 1);
+		}
+
+		.select-value-color-purple {
+			background-color: rgba(232, 222, 238, 1);
+		}
+
+		.select-value-color-green {
+			background-color: rgba(219, 237, 219, 1);
+		}
+
+		.select-value-color-gray {
+			background-color: rgba(227, 226, 224, 1);
+		}
+
+		.select-value-color-translucentGray {
+			background-color: rgba(255, 255, 255, 0.0375);
+		}
+
+		.select-value-color-orange {
+			background-color: rgba(250, 222, 201, 1);
+		}
+
+		.select-value-color-brown {
+			background-color: rgba(238, 224, 218, 1);
+		}
+
+		.select-value-color-red {
+			background-color: rgba(255, 226, 221, 1);
+		}
+
+		.select-value-color-yellow {
+			background-color: rgba(253, 236, 200, 1);
+		}
+
+		.select-value-color-blue {
+			background-color: rgba(211, 229, 239, 1);
+		}
+
+		.checkbox {
+			display: inline-flex;
+			vertical-align: text-bottom;
+			width: 16;
+			height: 16;
+			background-size: 16px;
+			margin-left: 2px;
+			margin-right: 5px;
+		}
+
+		.checkbox-on {
+			background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+		}
+
+		.checkbox-off {
+			background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+		}
+	</style>
+</head>
+
+<body>
+	<article id="6c4f399f-e033-499e-a068-0468e7fc2f66" class="page sans">
+		<header>
+			<h1 class="page-title"><strong>DBMS (Database Management System)</strong></h1>
+			<p class="page-description"></p>
+		</header>
+		<div class="page-body">
+			<p id="be168e4f-1b3e-4d3f-8128-12c253af390a" class="">
+			</p>
+			<h2 id="6fe067c4-6b6a-4085-96b8-bb72f79be7e9" class="">Architecture overview</h2>
+			<p id="18e0b44f-9214-4088-bd71-0d4c793243ce" class="">A query goes through a chain of components in order to
+				retrieve or modify data :</p>
+			<figure id="5ad86209-6926-4d48-b83f-7bc4fc2f1845" class="image"><a
+					href="dbms_architecture_overview/Untitled.png"><img style="width:518px"
+						src="dbms_architecture_overview/Untitled.png" /></a>
+			</figure>
+			<p id="81fcc44c-e57d-4e57-80f7-1a1c581f376d" class="">✳️ <strong>Query processor: </strong>parses, interprets, and
+				validates the query.</p>
+			<p id="c921d156-6e34-4787-bc30-63a987a06633" class="">✳️ <strong>Query optimizer:</strong></p>
+			<ul id="8325224b-864b-4753-a5eb-042086b6b4a9" class="bulleted-list">
+				<li style="list-style-type:disc">First, it eliminates impossible and redundant parts of the query.</li>
+			</ul>
+			<ul id="893e3e29-15f3-476b-8185-7d209db4c0ad" class="bulleted-list">
+				<li style="list-style-type:disc">Then attempts to find the most efficient way to execute the query based on
+					internal statistics (index cardinality, approximate intersection size,
+					etc.) and data placement (which nodes in the cluster hold the data and
+					the costs associated with its transfer).</li>
+			</ul>
+			<p id="cdb8e306-5afc-40c3-a645-a9feb4533065" class="">✳️ <strong>Transaction manager:</strong> schedules
+				transactions and ensures they cannot leave the database in a logically inconsistent state.</p>
+			<p id="f7c4b536-8d0f-4557-8a23-f127aaba717a" class="">✳️ <strong>Lock manager: </strong>locks database objects for
+				running transactions, ensuring that concurrent
+				operations do not violate the physical integrity of the data.</p>
+			<p id="78f429cf-ae0b-4bf9-8b4f-2a04224bc9ea" class="">✳️ Together, <strong>transaction and lock managers</strong>
+				are responsible for concurrency control: they guarantee the logical and physical integrity of data while
+				ensuring that concurrent operations
+				are performed as efficiently as possible.</p>
+			<p id="77903067-789d-4d4d-8426-a539cf817790" class="">✳️ <strong>Access methods:</strong><em><strong>
+					</strong></em>manage access and organizing data on disk. Access methods include heap files and storage
+				structures such as <a href="https://en.wikipedia.org/wiki/B-tree">B-Trees</a> or <a
+					href="https://en.wikipedia.org/wiki/Log-structured_merge-tree">LSM Trees</a>.</p>
+			<p id="7db57194-9072-418d-a0c5-7408ce85d581" class="">✳️ <strong>Buffer manager:</strong> caches data pages in
+				memory.</p>
+			<p id="bd8ad2cb-6be5-489e-82a5-d6bb2d6d351a" class="">✳️ <strong>Recovery manager:</strong> maintains the
+				operation log and restoring the system state in case of a failure.</p>
+			<h2 id="f7cbabba-800f-4713-a694-738f0c7d6608" class="">DBMS real examples</h2>
+			<p id="de723baa-3ff4-4028-9d0d-a68c4a02540c" class="">If we look at the architectures of existing DBMSs, we find
+				most of the components that I described above, let’s look in detail!</p>
+			<p id="6681e690-5edc-4128-af09-f62d55f85c80" class="">🔵 <strong>SQLite architecture is as follows:</strong></p>
+			<figure id="c1308b12-1ca4-4785-84db-f08f41e3a9dd" class="image"><a
+					href="dbms_architecture_overview/Untitled%201.png"><img style="width:586px"
+						src="dbms_architecture_overview/Untitled%201.png" /></a>
+			</figure>
+			<p id="10d16a31-6c82-414d-825d-a37cd8873ef6" class=""><a href="https://www.sqlite.org/arch.html">Architecture of
+					SQLite</a></p>
+			<p id="a95fe881-124b-421a-a30a-5e680a9af734" class="">🔵 <strong>Couchbase High-Level architecture is as
+					follows:</strong></p>
+			<figure id="31087c53-db52-4665-b848-bdaedd2dc2ad" class="image"><a
+					href="dbms_architecture_overview/Untitled%202.png"><img style="width:1136px"
+						src="dbms_architecture_overview/Untitled%202.png" /></a>
+			</figure>
+			<p id="ae0aa619-4534-421b-8ac9-4b42192458d5" class=""><a
+					href="https://www.couchbase.com/blog/analyze-this-mongodb-couchbase-analytics/">Analyze This: MongoDB &amp;
+					Couchbase Analytics. — The Couchbase Blog</a></p>
+			<p id="2f1a542d-15db-4ace-9809-c3e42edaf3d4" class="">🔵 <strong>MySQL Storage Engine architecture:</strong></p>
+			<figure id="8eeeebb6-4ac7-42d0-9e93-9f3e8f7eed07" class="image"><a
+					href="dbms_architecture_overview/Untitled%203.png"><img style="width:500px"
+						src="dbms_architecture_overview/Untitled%203.png" /></a>
+			</figure>
+			<p id="cd44419f-8953-458a-8381-a91db7762de4" class=""><a
+					href="https://dev.mysql.com/doc/refman/8.0/en/pluggable-storage-overview.html">MySQL :: MySQL 8.0 Reference
+					Manual :: 16.11 Overview of MySQL Storage Engine Architecture</a></p>
+			<p id="4070e38a-0cde-476c-ae4e-fae8f35e502c" class="">🔵 <strong>PostgreSQL architecture:</strong></p>
+			<figure id="594ecee2-466a-4eb5-bc52-1113679e0f2a" class="image"><a
+					href="dbms_architecture_overview/Untitled%204.png"><img style="width:1372px"
+						src="dbms_architecture_overview/Untitled%204.png" /></a>
+			</figure>
+			<p id="a5361ac3-00c6-4a23-bccd-a3e643383aaa" class=""><a
+					href="https://en.wikibooks.org/wiki/PostgreSQL/Architecture">PostgreSQL/Architecture — Wikibooks, open books
+					for an open world</a></p>
+			<p id="d526085f-e69b-43cf-be20-e75d3738d21f" class="">Now let’s see: in what format is the data saved (in memory
+				and on disk)? and when does it go from memory to disk?</p>
+			<h2 id="8f476711-ca24-40c5-9d2b-2d944066d3da" class="">Memory vs Disk DBMS</h2>
+			<p id="c176cfb8-006a-432d-89b3-575357cc03b2" class="">According to the storage technique, we can find two types of
+				DBMS:</p>
+			<ul id="89b18550-8c73-4bf3-ac2e-09e77091f406" class="bulleted-list">
+				<li style="list-style-type:disc"><strong>In-memory DBMSs</strong> store data primarily in memory and use the
+					disk for recovery and logging.</li>
+			</ul>
+			<ul id="f2b5bbea-4b70-46bb-aec4-aca717ddf8ca" class="bulleted-list">
+				<li style="list-style-type:disc"><strong>Disk-based DBMSs</strong> hold most of the data on disk and use memory
+					for caching disk contents or as a temporary storage.</li>
+			</ul>
+			<p id="364c1d64-7ad7-494c-b9e6-60fc38996977" class="">Databases using memory as their primary data store do so
+				primarily because of performance (low access costs) and also because programming for memory (RAM) is much easier
+				than for disk.</p>
+			<p id="569bb3d3-f872-46fa-af61-1cd96fc52f25" class="">But, there are also a lot of limitations to consider for
+				in-memory mode:</p>
+			<ul id="a37b3468-578d-4d75-bb3b-d36fa822cb27" class="bulleted-list">
+				<li style="list-style-type:disc">RAM contents are not persistent: software errors, crashes, hardware failures,
+					and power outages can result in data loss.</li>
+			</ul>
+			<ul id="c75b02d6-8ee7-49dd-bc1c-2f20d8f932a1" class="bulleted-list">
+				<li style="list-style-type:disc">There are ways to ensure durability, such as uninterrupted power supplies and
+					battery-backed RAM, but they require additional hardware resources and
+					operational expertise.</li>
+			</ul>
+			<ul id="9ff2debf-d9ee-4e87-abbf-453ff0b7bf1f" class="bulleted-list">
+				<li style="list-style-type:disc">Disks are also easier to maintain and have significantly lower prices.</li>
+			</ul>
+			<p id="bed1bbc0-3396-443d-a43f-1b70cc1db277" class="">Aha time!</p>
+			<p id="8c6892aa-408c-4f27-8a58-7a2763017865" class="">What I take from this comparison: the perfect software does
+				not exist, it’s just a trade-off:</p>
+			<ul id="018e79ec-4a5e-4ad7-9a32-75f7309127dd" class="bulleted-list">
+				<li style="list-style-type:disc">If you are looking for speed and simplicity, <strong>In-memory DBMS</strong>
+					will be the appropriate solution (for example, saving the most searched results in the Redis cache).</li>
+			</ul>
+			<ul id="d3f81a8c-7521-4cd0-a84c-c3680e8374a9" class="bulleted-list">
+				<li style="list-style-type:disc">However, if the data is sensitive and requires persistence (such as user
+					accounts and their contact details), you should opt for <strong>Disk-based DBMS</strong>.</li>
+			</ul>
+			<ul id="eed8e634-9c5c-44f9-81de-9ee09f71c8c7" class="bulleted-list">
+				<li style="list-style-type:disc">At the same time, nothing prevents to mix the two concepts to have a better
+					performance result.</li>
+			</ul>
+			<p id="d57f4956-407f-4b9b-a18d-07181df0641c" class="">There are other features that differentiate DBMSs, not only
+				the storage mode, such as how to organize data in rows or columns, let’s take a look!</p>
+			<h2 id="0d172ad6-dffd-409b-b687-5c6a1c4e0350" class="">Column Vs Row Oriented DBMS</h2>
+			<p id="a0ee54b5-bcf5-41f1-b559-058096581f05" class="">✳️ <strong>Row-oriented</strong> database management systems
+				store data in records or rows. Their layout
+				is quite close to the tabular data representation, where every row has the same set of fields.</p>
+			<p id="e7a84b11-2d50-470c-b44e-fdc65cd782c2" class="">✳️ <strong>Column-oriented</strong> database management
+				systems partition data vertically (i.e., by column)
+				instead of storing it in rows. Values for the same column are stored contiguously on disk.</p>
+			<figure id="eee968a5-c4fe-4605-92f7-293f25e52a68" class="image"><a
+					href="dbms_architecture_overview/Untitled%205.png"><img style="width:904px"
+						src="dbms_architecture_overview/Untitled%205.png" /></a>
+			</figure>
+			<p id="8b4ed72f-4676-413e-a0e8-4eed69f42d46" class="">Let’s analyze the trade-offs now:</p>
+			<p id="232e4405-09dc-409c-9602-6532567da7dc" class="">🔵 <strong>Row-oriented pros:</strong></p>
+			<ul id="4dc2e292-69cf-4c1f-a65f-1ad3bea1e12d" class="bulleted-list">
+				<li style="list-style-type:disc">This approach works well for cases where several fields constitute the record
+					(for example a single user record).</li>
+			</ul>
+			<ul id="f5387a79-146a-4d28-83d6-36970fc83c75" class="bulleted-list">
+				<li style="list-style-type:disc">All fields representing a single record are often read together.</li>
+			</ul>
+			<ul id="d5ab5b96-97fc-4b45-9885-2c5e6cc1dd6e" class="bulleted-list">
+				<li style="list-style-type:disc">When creating records (for example, when the user fills out a registration
+					form), we write them together as well.</li>
+			</ul>
+			<ul id="e6545797-c9c3-4914-ac48-12d9886bea9a" class="bulleted-list">
+				<li style="list-style-type:disc">At the same time, each field can be modified individually.</li>
+			</ul>
+			<p id="7632f536-c0fb-49c9-a308-cca447365720" class="">⚫ <strong>Row-oriented cons: queries </strong>accessing
+				individual fields of multiple records (for example, queries fetching only the phone numbers) are more expensive.
+			</p>
+			<p id="b59676ca-2458-4334-b660-a50ef1297319" class="">Let’s look at the organization by columns now:</p>
+			<p id="a3caa387-ef9e-4766-9952-77c1f3174943" class="">🔵 <strong>Column-oriented pros:</strong></p>
+			<ul id="129c1100-04b2-4ce3-9b26-f5841536bb23" class="bulleted-list">
+				<li style="list-style-type:disc">Storing the values of different columns in separate files or file segments is
+					efficient for per-column queries because they can be read in a single pass rather than consuming entire rows
+					and discarding data from columns that don’t have not been queried.</li>
+			</ul>
+			<ul id="bb28c701-09b4-44d8-80da-b8732e5b7545" class="bulleted-list">
+				<li style="list-style-type:disc">Storing values that have the same data type together (e.g., numbers with other
+					numbers, strings with other strings) offers a better compression ratio.</li>
+			</ul>
+			<p id="02df29b7-9c7f-413c-bfe5-ce984768cb74" class="">⚫ <strong>Column-oriented cons: </strong>I think the
+				downside is clear, access to all information about a record is expensive.</p>
+			<p id="f9b5af13-8047-430e-a479-06f7f13f766d" class="">Like I said it’s all about trade-off!</p>
+			<p id="162247d9-f48f-471b-a01a-6193898fbd71" class="">Let’s now discover other magical features of the DBMS: the
+				indexes, it’s time to fly!</p>
+			<h2 id="0f7404a1-2aa4-4cf4-ad8b-0ff710aa40f0" class="">Clustered and non-clustered index</h2>
+			<p id="f9c652f1-aaab-45dd-b309-61323ba72741" class="">Indexing is the first thing that comes to mind when we
+				consider a database’s performance.</p>
+			<p id="d2a4c154-1388-4193-af35-87b485a1c875" class="">It’s like the table of contents in a book: if you need to go
+				to a particular chapter, you go to the table of contents, find the page number of the chapter and go directly to
+				that page:</p>
+			<figure id="966f465c-0d21-4efe-82c5-927c9134dcb0" class="image"><a
+					href="dbms_architecture_overview/Untitled%206.png"><img style="width:496px"
+						src="dbms_architecture_overview/Untitled%206.png" /></a>
+			</figure>
+			<p id="3892d754-2ee2-4eac-bade-5b635e0d6bff" class="">An example of Table of contents (Image by the author)</p>
+			<p id="54bd4752-2aa2-4c8d-9e83-7d38f1f0563f" class="">Without indexes (table of contents), the process of finding
+				the desired chapter would have been very slow !</p>
+			<p id="a3926378-6a32-40a2-94a7-26d60d7ecc07" class="">There are two magic types of indexes:</p>
+			<ul id="7d4c1f59-bc81-4021-9dda-63dba092a65d" class="bulleted-list">
+				<li style="list-style-type:disc">clustered</li>
+			</ul>
+			<ul id="e4864456-0bc5-479d-bf6a-c6e5cd788eb5" class="bulleted-list">
+				<li style="list-style-type:disc">non-clustered</li>
+			</ul>
+			<p id="224c57f1-36c0-4a69-970f-27bef79f209e" class=""><strong>A clustered index</strong> defines the order in
+				which data is physically stored in a table. Table data can be sorted in only way, therefore, there can be only
+				one clustered index per table.</p>
+			<p id="61be1de4-f360-42a3-a032-17286875fd77" class="">The important word in this explanation is:
+				<strong>physically</strong>.
+			</p>
+			<p id="07acc999-ab08-4f86-8371-b84ca30d33d4" class="">In SQL Server, the primary key constraint automatically
+				creates a clustered index on that particular column.</p>
+			<pre id="24253fe7-e3f8-4178-bd4d-d127de138aa9" class="code code-wrap"><code>CREATE DATABASE universityDB
+
+CREATE TABLE student
+(
+    id INT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    gender VARCHAR(50) NOT NULL,
+    DOB datetime NOT NULL,
+    total_score INT NOT NULL,
+    city VARCHAR(50) NOT NULL
+ )</code></pre>
+			<p id="155db4b6-e30d-44dc-90ee-6d742bd3e918" class="">Notice here in the <code>student</code> table we have set
+				primary key constraint on the <code>id</code> column. This automatically creates a clustered index on the
+				<code>id</code> column.
+			</p>
+			<p id="5c27317b-2c19-4420-9ee2-05bda7374a7f" class="">To see all the indexes on a particular table execute
+				<code>sp_helpindex</code> stored procedure :
+			</p>
+			<pre id="761cdf75-69c0-457f-aa77-2b1b1275935b" class="code code-wrap"><code>USE universityDB
+
+EXECUTE sp_helpindex student</code></pre>
+			<p id="1500e6f5-75da-4b6c-a269-4094744f5796" class="">The execution result is:</p>
+			<figure id="3a49afec-897a-4191-8a80-0f378d4cf40e" class="image"><a
+					href="dbms_architecture_overview/Untitled%207.png"><img style="width:1400px"
+						src="dbms_architecture_overview/Untitled%207.png" /></a>
+			</figure>
+			<p id="b617b702-1d0c-4f31-b017-245cca743021" class="">Now let’s look at the result if we want to read all the
+				students:</p>
+			<pre id="f2497a4f-71ef-41fb-b442-026a1f17dbaf" class="code code-wrap"><code>USE universityDB
+
+SELECT * FROM student</code></pre>
+			<p id="d8b23b0f-7163-483e-9eec-01fd75e0fe1b" class="">Because of the default clustered index on the id column, the
+				records are physically stored in the ascending order of the values in the <code>id</code> column :</p>
+			<figure id="a791f70e-0c24-47c8-ade8-2db7e9da7b36" class="image"><a
+					href="dbms_architecture_overview/Untitled%208.png"><img style="width:1400px"
+						src="dbms_architecture_overview/Untitled%208.png" /></a>
+			</figure>
+			<p id="4e2a2b94-ee8c-46a5-bc91-4b88590697b9" class="">It is also possible to create our own clustered index:</p>
+			<pre id="36ceb197-641b-4b02-bdac-cb0e528a90ad" class="code code-wrap"><code>use universityDB
+
+CREATE CLUSTERED INDEX IDX_tblStudent_Gender_Score
+ON student(gender ASC, total_score DESC)</code></pre>
+			<p id="59471a97-b7e3-495e-be4c-9e2535e84d32" class="">It’s great, isn’t it? What can we say now about
+				non-clustered index?</p>
+			<p id="5d9863e6-9d4f-4580-943f-6d4e1f8442c4" class="">✳️ A non-clustered index doesn’t sort the physical data
+				inside the table.</p>
+			<p id="e74e735b-1b30-417a-a967-232df7ebc2aa" class="">✳️ The clustered Index focuses on <strong>physical
+					structure</strong>. The non-clustered Index focuses on <strong>logical structure</strong>.</p>
+			<p id="1d0a8163-1036-4b0d-8275-2f7666e7a985" class="">✳️ clustered indexes contain data, whereas
+				<strong>non-clustered indexes are stored in a different table</strong> (which requires more storage space).
+			</p>
+			<p id="d06acc1c-64fb-4cf0-875b-0bcabebccdec" class="">✳️ There can be <strong>only one clustered index per
+					table</strong>. However, we can create <strong>multiple non-clustered indexes</strong> on a single table.</p>
+			<p id="06f4ae88-b7ed-41fc-a907-a5cde08fcc84" class="">✳️ clustered indexes are faster than non-clustered indexes
+				since they don’t involve any extra lookup step.</p>
+			<p id="e879c734-a8b1-4722-8dfe-490a674de215" class="">✳️ clustered index are typically larger because it includes
+				all the data rows. Whereas, non-clustered index only includes index key values and pointers to the data rows.
+			</p>
+			<p id="0ace2bdd-cfdf-43e6-9690-8f84144a905f" class="">✳️ clustered index is faster for retrieving large ranges of
+				sequential data. However, non-clustered index is faster for retrieving small sets of data or for sorting and
+				aggregating data.</p>
+			<figure id="2f63c385-2f5b-444b-be55-8413e9b0542b" class="image"><a
+					href="dbms_architecture_overview/Untitled%209.png"><img style="width:444px"
+						src="dbms_architecture_overview/Untitled%209.png" /></a>
+			</figure>
+			<p id="7ea5baa4-5cad-4e58-8c48-9c37c7a76e3d" class="">Aha, it’s clear which type of index to choose for which
+				operation, magnificent!</p>
+			<p id="754ced7d-e5b9-4367-aebc-25b5020542ae" class="">Well, since indexes are used mainly for performance reasons,
+				I wonder what data structure used to allow the speed of search and update, obviously this cannot be an array,
+				let’s have a look!</p>
+			<h2 id="5e2e38d5-5100-4282-a56d-cc126b04d889" class="">Data Files and Index Files</h2>
+			<p id="091321e0-01bb-40cf-9446-52cdc6afadd5" class="">Database systems use special files for storing the data.
+				They don’t rely on filesystem hierarchies of directories and files for locating records. They use an
+				implementation-specific formats.</p>
+			<p id="6396b7fd-5c8a-48c8-9649-7b74ee19c88e" class="">Why? well this for:</p>
+			<ul id="0d489662-d011-43ec-8bda-d359efba7c8e" class="bulleted-list">
+				<li style="list-style-type:disc"><strong>Storage efficiency:</strong> files are organized in a way that
+					minimizes storage overhead per stored data record.</li>
+			</ul>
+			<ul id="101bca00-a7d1-4b76-bd72-91561220fc1d" class="bulleted-list">
+				<li style="list-style-type:disc"><strong>Access efficiency:</strong> records can be located in the smallest
+					possible number of steps.</li>
+			</ul>
+			<ul id="29844cc3-5d39-439a-a9aa-e28d1c5dbab7" class="bulleted-list">
+				<li style="list-style-type:disc"><strong>Update efficiency:</strong> record updates are performed in a way that
+					minimizes the number of changes on disk.</li>
+			</ul>
+			<p id="b753bd1f-8ecd-402d-a7f8-4002a6ced549" class="">To efficiently locate a record, database systems use
+				indexes.</p>
+			<p id="196cc6d5-b87f-4709-b371-ff7b149bfcdb" class="">Usually data files and index files are separated and index
+				files are typically smaller than the data files.</p>
+			<p id="3902199a-f55e-4ec5-9f50-e48519b2c13a" class="">Well, but with which data structure, data and indexes are
+				implemented in order to ensure high performance? It’s a good question!</p>
+			<p id="2e871eac-cdb4-449b-9f74-f433e0d6ad67" class="">For example, the <a
+					href="https://en.wikipedia.org/wiki/B-tree">B-Tree</a> is the data structure SQLite uses to represent both
+				tables and indexes. Similarly Postgres, MySQL, and Oracle Database.</p>
+			<blockquote id="79c82314-16e2-48c7-9f29-f50a09d1bdae" class="">InnoDB indexes are B-tree data structures. Spatial
+				indexes use R-trees, which are specialized data structures for indexing multi-dimensional data. — MySQL :: MySQL
+				8.0 Reference Manual :: 15.6.2.2 The Physical Structure of an InnoDB Index<p
+					id="583f38fd-d65e-4c3d-8143-a5c45177b4b4" class="">By default, the Oracle creates a b_tree index. <a
+						href="http://www.dba-oracle.com/t_garmany_easysql_btree_index.htm">Oracle — B-Tree Index
+						(dba-oracle.com)</a></p>
+				<p id="0f3012e4-bae1-497d-ace5-d0e349505004" class="">PostgreSQL B-Tree indexes are multi-level tree structures,
+					where each level of the tree can be used as a doubly-linked list of pages. A single metapage is stored in a
+					fixed position at the start of the first segment file of the index. — <a
+						href="https://www.postgresql.org/docs/current/btree-implementation.html#:~:text=PostgreSQL%20B%2DTree%20indexes%20are,segment%20file%20of%20the%20index.">PostgreSQL:
+						Documentation: 15: 67.4. Implementation</a></p>
+			</blockquote>
+			<p id="359f6aca-106f-43be-8249-9bf4dd008349" class="">Other databases use the LSM-Tree (Log-structured merge-tree)
+				instead:</p>
+			<figure id="3e462477-a2ae-4969-a157-7a0cbd576030" class="image"><a
+					href="dbms_architecture_overview/Untitled%2010.png"><img style="width:900px"
+						src="dbms_architecture_overview/Untitled%2010.png" /></a>
+			</figure>
+			<p id="9ead168c-abfe-4d1f-8b3a-c1588b23016f" class=""><a
+					href="https://twitter.com/alexxubyte/status/1583119489318518786">(1) Alex Xu sur Twitter : “/1 What are the
+					differences between B-Tree and LSM-Tree? https://t.co/uAZyd76kW4&quot; / Twitter</a></p>
+			<blockquote id="8f38aead-8910-47ff-8836-6e8df97637ec" class="">Cassandra uses a storage structure similar to a
+				Log-Structured Merge Tree, unlike
+				a typical relational database that uses a B-Tree. Cassandra avoids reading before writing. Read-before-write,
+				especially in a large distributed system, can result in large latencies in read performance and other problems.
+				— Storage engine | Apache Cassandra 3.x (datastax.com)</blockquote>
+			<p id="b8fedd78-d76b-47f3-801b-3837f2718415" class="">I think you guessed the next sections, of course I’m going
+				to talk about B-Tree and LSM-Tree, let’s go!</p>
+			<h1 id="d36c8f4f-1619-479c-a706-a65987e95159" class="">B-Tree</h1>
+			<p id="15bfc605-f70d-4cdc-98c3-94bc0636b11a" class="">Balanced tree is a data structure used with clustered and
+				non-clustered indexes to make data retrieval faster and easier, interesting !</p>
+			<h2 id="808db698-931f-49fd-a043-a3add740eaf5" class="">B-Tree in Database</h2>
+			<p id="921024bc-24e5-45e4-8524-a87de53f3d4f" class="">To explain how B-Tree works, I’ll start by creating a new
+				<code>People</code> table and add a clustered index on the <code>LastName</code> column:
+			</p>
+			<pre id="fd01d631-b473-4865-a3a3-e7825c1cf342" class="code code-wrap"><code>CREATE TABLE People
+(
+LastName VARCHAR(15),
+FirstName VARCHAR(15),
+PersonID INT IDENTITY(100,5)
+)
+
+CREATE CLUSTERED INDEX idx_LastName on People(LastName)</code></pre>
+			<p id="9118aa6c-a704-4e41-8028-dee650b6319c" class="">Next, let’s add some people to the table:</p>
+			<pre id="730e5def-a7bd-4270-a32d-1b2cf45b45f8" class="code code-wrap"><code>INSERT INTO People(LastName, FirstName) VALUES
+(&#x27;Ben Khalfallah&#x27;,&#x27;Hela&#x27;),
+(&#x27;Tesla&#x27;,&#x27;Nicolas&#x27;),
+(&#x27;Jobs&#x27;,&#x27;Steve&#x27;),
+(&#x27;Einstein&#x27;,&#x27;Albert&#x27;)</code></pre>
+			<p id="f436e6c0-5283-4dba-a7ab-076145f1a048" class="">Let’s run a simple SELECT:</p>
+			<pre id="2aca64fd-5d4a-481e-aa91-e6b62c02ae31" class="code code-wrap"><code>SELECT * FROM PEOPLE
+
+
+// results (LastName FirstName PersonID)
+Ben Khalfallah Hela 100
+Einstein Albert 115
+Jobs Steve 110
+Tesla Nicolas 105</code></pre>
+			<p id="d78f3555-155a-4c30-aa7f-7367f168c9d7" class="">Take a good look at the result, SELECT presented the data in
+				order by <code>LastName</code>, not the order in which the rows were added.</p>
+			<p id="8e380e7c-9679-4737-9aba-c462518cc736" class="">Well, what do those lines look like on the B-Tree? Simply
+				like this:</p>
+			<figure id="7d86dad9-389e-41c3-977f-ad4e8bdaf974" class="image"><a
+					href="dbms_architecture_overview/Untitled%2011.png"><img style="width:1400px"
+						src="dbms_architecture_overview/Untitled%2011.png" /></a>
+			</figure>
+			<p id="912794f1-5e2e-4ed2-b976-a60385358717" class="">It’s true, it’s not a joke ! 😊</p>
+			<p id="4d8cbea2-f9a5-47b7-9292-7ba2b41774ad" class="">The box is called <strong>node</strong>. When data is stored
+				on a hard disk, it is actually stored in nodes like
+				this. A hard disk contains a multitude of nodes to store information. Great!</p>
+			<p id="cf6bf9f7-03ec-4448-a942-e3780a7217b2" class="">A particularity, a node has a <strong>finite size</strong>.
+				In our case, the node can only contain 4 rows.</p>
+			<p id="537d37e1-f454-4913-90bf-a9b1a7726f76" class="">Ah, you guessed the next question: what happens if we go
+				over the limit and add another person? let’s look!</p>
+			<pre id="7bf1f989-3ff1-4aa7-bcde-762fc4fb0eea" class="code code-wrap"><code>INSERT INTO People (LastName, FirstName)
+VALUES
+(&#x27;Crockford&#x27;,&#x27;Douglas&#x27;)</code></pre>
+			<p id="c3f6e20b-15f9-4269-ad1f-7bc72bf1af86" class="">Tada !</p>
+			<figure id="062f79f0-86e0-4f1c-b6ac-456b7df8245b" class="image"><a
+					href="dbms_architecture_overview/Untitled%2012.png"><img style="width:1400px"
+						src="dbms_architecture_overview/Untitled%2012.png" /></a>
+			</figure>
+			<p id="c0116f4f-c992-4b59-b0da-9396fbdacb85" class="">Let’s analyze the result:</p>
+			<ul id="0092da59-ad63-428a-bf9d-f4e53474e46e" class="bulleted-list">
+				<li style="list-style-type:disc">top node is called the <strong>root node</strong>.</li>
+			</ul>
+			<ul id="bf21e6dd-527b-417d-8ee9-1d0ad2ace3a4" class="bulleted-list">
+				<li style="list-style-type:disc">the two nodes below are called <strong>leaf nodes</strong>.</li>
+			</ul>
+			<ul id="32e87848-7a0d-4fec-a9f0-d13491b159f7" class="bulleted-list">
+				<li style="list-style-type:disc">leaf nodes are what contain the actual table data.</li>
+			</ul>
+			<ul id="ee3fb1bb-dae7-4432-b62a-ce0f3215892e" class="bulleted-list">
+				<li style="list-style-type:disc">the alpha-numeric strings under each leaf node is the address of the leaf node.
+				</li>
+			</ul>
+			<ul id="0aff8bc9-f98f-4a67-ba5a-2d6a587d3c68" class="bulleted-list">
+				<li style="list-style-type:disc">the arrows between the two leaf nodes highlight how the two leaf nodes are
+					connected through a doubly linked list.</li>
+			</ul>
+			<ul id="31ae870f-de7d-494f-92a8-4f5d7cd34946" class="bulleted-list">
+				<li style="list-style-type:disc">node 0xACDE knows how to get to node 0x66BE, and node 0x66BE know how to get to
+					node 0xACDE. They are connected in each direction to one another.</li>
+			</ul>
+			<figure id="f9ba5309-4c07-4aa2-9266-997e4e2abbbf" class="image"><a
+					href="dbms_architecture_overview/Untitled%2013.png"><img style="width:506px"
+						src="dbms_architecture_overview/Untitled%2013.png" /></a>
+			</figure>
+			<p id="4798a825-b540-4802-b283-a836a249ac02" class=""><a
+					href="https://www.sqlservercentral.com/articles/understanding-curd-operations-on-tables-with-b-tree-indexes-page-splits-and-fragmentation">Understanding
+					CRUD Operations on Tables with B-tree Indexes, Page-splits, and Fragmentation — SQLServerCentral</a></p>
+			<p id="8d93948e-abe9-49ee-aeb2-7f4b105b0943" class="">The main aim of using B-Tree is to decrease I/O calls. I/O
+				operations are still the most slow in computer systems. Each level in our case can be generalized as an I/O
+				device, so for search operations we use 3 I/O calls. The depth of B-tree affects search latency, it should be
+				appropriate. It is magic!</p>
+			<p id="c8f913a1-5fbb-469e-be6f-f7c4c9058279" class="">If you want to go further in the discovery of <a
+					href="https://en.wikipedia.org/wiki/B-tree">B-tree</a>.</p>
+			<h2 id="eeb8fa20-317d-4412-81bf-ed3f6fe652eb" class="">B-Tree Variants</h2>
+			<ul id="cb51fe77-3282-45a2-b56c-297215730548" class="bulleted-list">
+				<li style="list-style-type:disc"><a href="https://dominoweb.draco.res.ibm.com/reports/rj10464.pdf">Copy-on-write
+						B-Trees</a> are structured like B-Trees, but their nodes are immutable and are not
+					updated in place. Instead, pages are copied, updated, and written to new locations.</li>
+			</ul>
+			<ul id="56736da4-1343-4088-af1a-61e566b3e6a1" class="bulleted-list">
+				<li style="list-style-type:disc"><a
+						href="https://www.lix.polytechnique.fr/~yanlei.diao/publications/vldb09-la-tree.pdf">Lazy B-Trees</a> reduce
+					the number of I/O requests from subsequent same-node writes by buffering updates to nodes.</li>
+			</ul>
+			<ul id="bf00f9b9-c0b3-47ff-9b72-1a6288a45819" class="bulleted-list">
+				<li style="list-style-type:disc"><a href="https://paulcavallaro.com/blog/the-bw-tree/">Bw-Trees</a> separate
+					B-Tree nodes into several smaller parts that are written in an append-only manner. This reduces costs of small
+					writes by batching
+					updates to the different nodes together.</li>
+			</ul>
+			<ul id="3b42fa0c-e0a7-4796-8cf6-2cc7e6c3491f" class="bulleted-list">
+				<li style="list-style-type:disc"><a
+						href="https://erikdemaine.org/papers/CacheObliviousBTrees_SICOMP/paper.pdf">Cache-oblivious B-Trees</a>
+					allow treating on-disk data structures in a way that is very similar to how we build in-memory ones.</li>
+			</ul>
+			<p id="e7e1387f-1c5f-408f-97d9-b770cfa290fb" class="">What a pleasure !</p>
+			<h2 id="91e001b1-3f8a-40be-b4bc-02baff615ffa" class="">B-Tree real implementations</h2>
+			<ul id="b5049e87-210a-4752-9eab-700c45c3b8b7" class="bulleted-list">
+				<li style="list-style-type:disc"><a
+						href="https://github.com/google/btree?utm_source=thenewstack&amp;utm_medium=website&amp;utm_content=inline-mention&amp;utm_campaign=platform">google/btree:
+						BTree provides a simple, ordered, in-memory data structure for Go programs. (github.com)</a></li>
+			</ul>
+			<ul id="835168b9-e668-4a5e-8dba-177628676200" class="bulleted-list">
+				<li style="list-style-type:disc"><a href="https://pkg.go.dev/github.com/google/btree">btree package —
+						github.com/google/btree — Go Packages</a></li>
+			</ul>
+			<ul id="b8babd48-5778-4117-b5e8-034aa70f0276" class="bulleted-list">
+				<li style="list-style-type:disc"><a
+						href="https://github.com/postgres/postgres/blob/master/contrib/btree_gist/btree_bit.c">postgres/btree_bit.c
+						at master · postgres/postgres · GitHub</a></li>
+			</ul>
+			<ul id="5aa7fb3f-77a2-46bd-a8e4-ba6057d146c5" class="bulleted-list">
+				<li style="list-style-type:disc"><a
+						href="https://github.com/sqlite/sqlite/blob/b609a79f4a9a0666d51db6f0f7c05e90308ed8c2/src/btree.h">sqlite/btree.h
+						at b609a79f4a9a0666d51db6f0f7c05e90308ed8c2 · sqlite/sqlite (github.com)</a></li>
+			</ul>
+			<ul id="789cc437-ff59-4060-9498-8e4bff396160" class="bulleted-list">
+				<li style="list-style-type:disc"><a
+						href="https://github.com/sqlite/sqlite/blob/37d4ec86bfa78c31732132b7729b8ce0e47da891/src/test_btree.c">sqlite/test_btree.c
+						at 37d4ec86bfa78c31732132b7729b8ce0e47da891 · sqlite/sqlite (github.com)</a></li>
+			</ul>
+			<ul id="017a83c5-821f-4bf5-bc91-20bb2d61b4a2" class="bulleted-list">
+				<li style="list-style-type:disc"><a
+						href="https://github.com/thewhiteninja/ntfstool/blob/master/Sources/Utils/btree.cpp">ntfstool/btree.cpp at
+						master · thewhiteninja/ntfstool (github.com)</a></li>
+			</ul>
+			<ul id="60abe109-f918-4b9f-adaf-260b4188ffff" class="bulleted-list">
+				<li style="list-style-type:disc"><a
+						href="https://doc.rust-lang.org/std/collections/struct.BTreeMap.html">BTreeMap in std::collections — Rust
+						(rust-lang.org)</a></li>
+			</ul>
+			<p id="7c8cc1e8-44ef-40ca-8586-a71b9e01d18c" class="">Now let’s look at the Log-structured merge-tree (LSM). I
+				can’t wait to discover it!</p>
+			<p id="3fa3ae63-f7e0-4191-9442-5df0e1a3b3cc" class="">
+			</p>
+			<h1 id="3d11dd2f-8a0f-40aa-be0f-d1900c227898" class="">Log-structured merge-tree (LSM)</h1>
+			<h2 id="2d960938-600b-4e12-b0f9-a205a74fed4a" class="">Overview</h2>
+			<p id="d7618a7d-c8d5-4f80-8b19-89e13fc48f53" class="">Let’s look at this beautiful and comprehensive explanation:
+			</p>
+			<blockquote id="416a4262-b774-4d8d-906b-a650256c0e59" class="">The log-structured mergetree (LSM-tree) is a
+				disk-based data structure designed to provide low-cost indexing for a file experiencing a high rate of record
+				inserts (and deletes) over an extended period. The LSM-tree uses an algorithm that defers and batches index
+				changes,
+				cascading the changes from a memory-based component through one or more disk components in an efficient manner
+				reminiscent of merge sort. — The log-structured merge-tree (LSM-tree) | SpringerLink</blockquote>
+			<p id="71bb83e7-a888-4ee8-b1f8-0ada39ff7f13" class="">🔺Due to the growing popularity of write-intensive
+				workloads, the Log-Structured Merge (LSM) Tree is widely used in modern database systems, such as Casandra,
+				AsterixDB, LevelDB, and RocksDB.</p>
+			<p id="370a36d2-775d-4142-9f11-440303dcfccf" class="">🔺To achieve high write throughput, the LSM-tree buffers
+				writes into components in memory and flushes the memory components to disk via sequential I/O when it is full.
+			</p>
+			<h2 id="55b3bc8b-68db-43ba-a4ad-b94add5ab3e9" class="">LSM-Tree Data Structure</h2>
+			<p id="1b4385af-2289-44d7-855f-33371676a1d4" class="">The main components are Memtable, WAL (Write Ahead Log),
+				SSTable:</p>
+			<figure id="82f14348-7010-4ca5-9452-f5a06814d952" class="image"><a
+					href="dbms_architecture_overview/Untitled%2014.png"><img style="width:867px"
+						src="dbms_architecture_overview/Untitled%2014.png" /></a>
+			</figure>
+			<p id="740f48af-bb3e-4955-ae90-bda765eed3bd" class="">✳️ <strong>Memtable</strong>: this data structure is the
+				first point of contact for every read or write operation received by the LSM Tree. The Memtable is an in-memory
+				structure that buffers incoming data from clients before flushing them to disk.</p>
+			<p id="4e5e92b9-30cd-4571-ae13-00288ba87c26" class="">✳️ <strong>SSTable</strong>: the Sorted String table
+				(SSTable), a concept borrowed from Google’s BigTable, is the on-disk format (a file) where key value entries
+				from Memtable are flushed in sorted order. An SSTable file is created when the Memtable reaches its capacity or
+				when compaction happens (more on that later).</p>
+			<p id="66b886cc-c4ae-4577-91fb-cf23f58af2b4" class="">✳️ <strong>B-Tree</strong> enables faster reads and
+				<strong>LSM-Tree</strong> enables fast writes.
+			</p>
+			<p id="98a224d7-5c77-4c1e-9d36-13e9eb81172b" class="">For example the architecture in <strong>LevelDB</strong>:
+			</p>
+			<figure id="b88434e6-547f-4ec9-bfba-42afc3784e0d" class="image"><a
+					href="dbms_architecture_overview/Untitled%2015.png"><img style="width:805px"
+						src="dbms_architecture_overview/Untitled%2015.png" /></a>
+			</figure>
+			<p id="8fe8f930-9624-49cf-b4e3-abbc5ee45e32" class="">The architecture in <strong>ScyllaDB</strong>:</p>
+			<figure id="87a9c05f-f095-4245-94ff-05ce81beda9b" class="image"><a
+					href="dbms_architecture_overview/Untitled%2016.png"><img style="width:600px"
+						src="dbms_architecture_overview/Untitled%2016.png" /></a>
+			</figure>
+			<p id="f1d1e616-ad4c-4268-9230-24f4ccf904b0" class=""><a
+					href="https://www.scylladb.com/product/technology/memory-management/">ScyllaDB | Lock-free Memory
+					Management</a></p>
+			<p id="8b135321-b79b-4cb6-944d-5631d19cd2f2" class="">🔻
+				A very important point to note: LSM Tree has a main drawback which is the cost of compaction which affects read
+				and write performance. Compacting is the most resource-intensive phase of LSM Tree due to the data
+				compression/decompression, copying and comparison of keys involved
+				in the process.</p>
+			<h2 id="1523e6fa-3301-446e-a312-50287f9e3cbb" class="">LSM-Tree real implementations</h2>
+			<ul id="00469914-be7c-41dc-b5ea-5c5a0dc01ef9" class="bulleted-list">
+				<li style="list-style-type:disc"><a
+						href="https://github.com/facebook/rocksdb#rocksdb-a-persistent-key-value-store-for-flash-and-ram-storage">facebook/rocksdb:
+						A library that provides an embeddable, persistent key-value store for fast storage. (github.com)</a></li>
+			</ul>
+			<ul id="b6fe4adf-1321-477a-8089-5944513a9237" class="bulleted-list">
+				<li style="list-style-type:disc"><a
+						href="https://www.igvita.com/2012/02/06/sstable-and-log-structured-storage-leveldb/">SSTable and Log
+						Structured Storage: LevelDB — igvita.com</a></li>
+			</ul>
+			<ul id="cc90d126-d863-4b17-83da-85c505d1331d" class="bulleted-list">
+				<li style="list-style-type:disc"><a
+						href="https://www.influxdata.com/blog/new-storage-engine-time-structured-merge-tree/">The New InfluxDB
+						Storage Engine: Time Structured Merge Tree | InfluxData</a></li>
+			</ul>
+			<ul id="101d0683-baa7-4a00-8217-98e3b827bb79" class="bulleted-list">
+				<li style="list-style-type:disc"><a href="https://github.com/indeedeng/lsmtree">indeedeng/lsmtree: A fast
+						key/value store that is efficient for high-volume random access reads and writes. (github.com)</a></li>
+			</ul>
+			<ul id="8a5a62a1-3361-4125-9ca5-99a3f419b88f" class="bulleted-list">
+				<li style="list-style-type:disc"><a href="https://github.com/krestenkrab/hanoidb">krestenkrab/hanoidb: Erlang
+						LSM BTree Storage (github.com)</a></li>
+			</ul>
+			<ul id="6f0ebf08-b405-43c1-9bb6-560e880e75e3" class="bulleted-list">
+				<li style="list-style-type:disc"><a href="http://source.wiredtiger.com/2.3.1/lsm.html">WiredTiger:
+						Log-Structured Merge Trees</a></li>
+			</ul>
+			<ul id="d9f6f4af-d46d-40c2-931c-511c005e4ea2" class="bulleted-list">
+				<li style="list-style-type:disc"><a href="https://docs.rs/lsm_engine/latest/lsm_engine/">lsm_engine — Rust
+						(docs.rs)</a></li>
+			</ul>
+			<ul id="2ba29f42-8567-4867-8536-d914f4962fd9" class="bulleted-list">
+				<li style="list-style-type:disc"><a
+						href="https://github.com/google/leveldb/blob/main/db/memtable.cc">leveldb/memtable.cc at main ·
+						google/leveldb · GitHub</a></li>
+			</ul>
+			<ul id="9eadc7c1-eaec-489f-aa0c-5976f94cb5a1" class="bulleted-list">
+				<li style="list-style-type:disc"><a
+						href="https://github.com/apache/cassandra/tree/trunk/src/java/org/apache/cassandra/io/sstable">cassandra/src/java/org/apache/cassandra/io/sstable
+						at trunk · apache/cassandra · GitHub</a></li>
+			</ul>
+			<p id="586034ae-97d6-4ae9-b54d-bace0da46035" class="">That’s all folks for this article! What an adventure! ✨</p>
+			<h1 id="a5381358-afab-4e4e-a390-ea0a702cffee" class="">Conclusion</h1>
+			<p id="e41a1788-289b-40ea-b264-ed7d3f72c220" class="">What an incredible journey inside the databases and what
+				great discoveries of the B-Tree and LSM-Tree!</p>
+			<p id="db33161f-6278-41e3-a712-90dca72cd471" class="">Through this article, we have learned a lot about the
+				storage engines.</p>
+			<p id="c41c1781-f7fa-4392-b36f-4fba6eba13d3" class="">We started with a high-level database system architecture
+				and some real examples.</p>
+			<p id="c1ae1698-e066-447a-b209-e7f721ed1d07" class="">Next, we moved to see two important storage structures:
+				B-Tree and LSM-Tree.</p>
+			<p id="25e50e84-650d-480b-a114-22f062c3078d" class="">B-Tree is the most widely used indexing data structure in
+				almost all relational databases. Whereas, LSM-Tree (Log-Structured Merge Tree) is widely used by many NoSQL
+				databases, such as Cassandra, LevelDB, and RocksDB.</p>
+			<p id="c6ca82fa-956f-4134-be7a-f2f028deba1d" class="">B-Tree enables faster reads and LSM-Tree enables fast
+				writes.</p>
+			<p id="382e2c55-a826-4df0-9089-f2ae9d0b3aa4" class="">Choosing the right database for one’s application requires
+				some understanding of the way in which different database engines are built.</p>
+			<p id="913a5759-8472-4403-857d-298b0708f434" class="">I think that from now, we are able to read and understand
+				well the specifications of a database (LSM-Tree, B-Tree, row, column, in-memory, disk, …).</p>
+			<p id="bcca5654-0b04-411f-8135-f55e83dcbe24" class="">I hope you enjoyed this trip, I love software engineering!
+			</p>
+			<p id="d0f58a46-b4e1-486c-b82a-1fed0699c797" class="">See you in another article and in another adventure! ❤️</p>
+		</div>
+	</article>
+</body>
+
+</html>
