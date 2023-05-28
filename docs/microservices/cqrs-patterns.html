@@ -1,0 +1,995 @@
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>CQRS patterns</title>
+  <style>
+    /* cspell:disable-file */
+    /* webkit printing magic: print all background colors */
+    html {
+      -webkit-print-color-adjust: exact;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-print-color-adjust: exact;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+    }
+
+    @media only screen {
+      body {
+        margin: 2em auto;
+        max-width: 900px;
+        color: rgb(55, 53, 47);
+      }
+    }
+
+    body {
+      line-height: 1.5;
+    }
+
+    a,
+    a.visited {
+      color: inherit;
+      text-decoration: underline;
+    }
+
+    .pdf-relative-link-path {
+      font-size: 80%;
+      color: #444;
+    }
+
+    h1,
+    h2,
+    h3 {
+      letter-spacing: -0.01em;
+      line-height: 1.2;
+      font-weight: 600;
+      margin-bottom: 0;
+    }
+
+    .page-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-top: 0;
+      margin-bottom: 0.75em;
+    }
+
+    h1 {
+      font-size: 1.875rem;
+      margin-top: 1.875rem;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      margin-top: 1.5rem;
+    }
+
+    h3 {
+      font-size: 1.25rem;
+      margin-top: 1.25rem;
+    }
+
+    .source {
+      border: 1px solid #ddd;
+      border-radius: 3px;
+      padding: 1.5em;
+      word-break: break-all;
+    }
+
+    .callout {
+      border-radius: 3px;
+      padding: 1rem;
+    }
+
+    figure {
+      margin: 1.25em 0;
+      page-break-inside: avoid;
+    }
+
+    figcaption {
+      opacity: 0.5;
+      font-size: 85%;
+      margin-top: 0.5em;
+    }
+
+    mark {
+      background-color: transparent;
+    }
+
+    .indented {
+      padding-left: 1.5em;
+    }
+
+    hr {
+      background: transparent;
+      display: block;
+      width: 100%;
+      height: 1px;
+      visibility: visible;
+      border: none;
+      border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+    }
+
+    img {
+      max-width: 100%;
+    }
+
+    @media only print {
+      img {
+        max-height: 100vh;
+        object-fit: contain;
+      }
+    }
+
+    @page {
+      margin: 1in;
+    }
+
+    .collection-content {
+      font-size: 0.875rem;
+    }
+
+    .column-list {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .column {
+      padding: 0 1em;
+    }
+
+    .column:first-child {
+      padding-left: 0;
+    }
+
+    .column:last-child {
+      padding-right: 0;
+    }
+
+    .table_of_contents-item {
+      display: block;
+      font-size: 0.875rem;
+      line-height: 1.3;
+      padding: 0.125rem;
+    }
+
+    .table_of_contents-indent-1 {
+      margin-left: 1.5rem;
+    }
+
+    .table_of_contents-indent-2 {
+      margin-left: 3rem;
+    }
+
+    .table_of_contents-indent-3 {
+      margin-left: 4.5rem;
+    }
+
+    .table_of_contents-link {
+      text-decoration: none;
+      opacity: 0.7;
+      border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+    }
+
+    table,
+    th,
+    td {
+      border: 1px solid rgba(55, 53, 47, 0.09);
+      border-collapse: collapse;
+    }
+
+    table {
+      border-left: none;
+      border-right: none;
+    }
+
+    th,
+    td {
+      font-weight: normal;
+      padding: 0.25em 0.5em;
+      line-height: 1.5;
+      min-height: 1.5em;
+      text-align: left;
+    }
+
+    th {
+      color: rgba(55, 53, 47, 0.6);
+    }
+
+    ol,
+    ul {
+      margin: 0;
+      margin-block-start: 0.6em;
+      margin-block-end: 0.6em;
+    }
+
+    li>ol:first-child,
+    li>ul:first-child {
+      margin-block-start: 0.6em;
+    }
+
+    ul>li {
+      list-style: disc;
+    }
+
+    ul.to-do-list {
+      text-indent: -1.7em;
+    }
+
+    ul.to-do-list>li {
+      list-style: none;
+    }
+
+    .to-do-children-checked {
+      text-decoration: line-through;
+      opacity: 0.375;
+    }
+
+    ul.toggle>li {
+      list-style: none;
+    }
+
+    ul {
+      padding-inline-start: 1.7em;
+    }
+
+    ul>li {
+      padding-left: 0.1em;
+    }
+
+    ol {
+      padding-inline-start: 1.6em;
+    }
+
+    ol>li {
+      padding-left: 0.2em;
+    }
+
+    .mono ol {
+      padding-inline-start: 2em;
+    }
+
+    .mono ol>li {
+      text-indent: -0.4em;
+    }
+
+    .toggle {
+      padding-inline-start: 0em;
+      list-style-type: none;
+    }
+
+    /* Indent toggle children */
+    .toggle>li>details {
+      padding-left: 1.7em;
+    }
+
+    .toggle>li>details>summary {
+      margin-left: -1.1em;
+    }
+
+    .selected-value {
+      display: inline-block;
+      padding: 0 0.5em;
+      background: rgba(206, 205, 202, 0.5);
+      border-radius: 3px;
+      margin-right: 0.5em;
+      margin-top: 0.3em;
+      margin-bottom: 0.3em;
+      white-space: nowrap;
+    }
+
+    .collection-title {
+      display: inline-block;
+      margin-right: 1em;
+    }
+
+    .simple-table {
+      margin-top: 1em;
+      font-size: 0.875rem;
+    }
+
+    .simple-table-header {
+      background: rgb(247, 246, 243);
+      color: black;
+      font-weight: 500;
+    }
+
+    time {
+      opacity: 0.5;
+    }
+
+    .icon {
+      display: inline-block;
+      max-width: 1.2em;
+      max-height: 1.2em;
+      text-decoration: none;
+      vertical-align: text-bottom;
+      margin-right: 0.5em;
+    }
+
+    img.icon {
+      border-radius: 3px;
+    }
+
+    .user-icon {
+      width: 1.5em;
+      height: 1.5em;
+      border-radius: 100%;
+      margin-right: 0.5rem;
+    }
+
+    .user-icon-inner {
+      font-size: 0.8em;
+    }
+
+    .text-icon {
+      border: 1px solid #000;
+      text-align: center;
+    }
+
+    .page-cover-image {
+      display: block;
+      object-fit: cover;
+      width: 100%;
+      height: 30vh;
+    }
+
+    .page-header-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+
+    .page-header-icon-with-cover {
+      margin-top: -0.72em;
+      margin-left: 0.07em;
+    }
+
+    .page-header-icon img {
+      border-radius: 3px;
+    }
+
+    .link-to-page {
+      margin: 1em 0;
+      padding: 0;
+      border: none;
+      font-weight: 500;
+    }
+
+    p>.user {
+      opacity: 0.5;
+    }
+
+    td>.user,
+    td>time {
+      white-space: nowrap;
+    }
+
+    input[type='checkbox'] {
+      transform: scale(1.5);
+      margin-right: 0.6em;
+      vertical-align: middle;
+    }
+
+    p {
+      margin-top: 0.5em;
+      margin-bottom: 0.5em;
+    }
+
+    .image {
+      border: none;
+      margin: 1.5em 0;
+      padding: 0;
+      border-radius: 0;
+      text-align: center;
+    }
+
+    .code,
+    code {
+      background: rgba(135, 131, 120, 0.15);
+      border-radius: 3px;
+      padding: 0.2em 0.4em;
+      border-radius: 3px;
+      font-size: 85%;
+      tab-size: 2;
+    }
+
+    code {
+      color: #eb5757;
+    }
+
+    .code {
+      padding: 1.5em 1em;
+    }
+
+    .code-wrap {
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+
+    .code>code {
+      background: none;
+      padding: 0;
+      font-size: 100%;
+      color: inherit;
+    }
+
+    blockquote {
+      font-size: 1.25em;
+      margin: 1em 0;
+      padding-left: 1em;
+      border-left: 3px solid rgb(55, 53, 47);
+    }
+
+    .bookmark {
+      text-decoration: none;
+      max-height: 8em;
+      padding: 0;
+      display: flex;
+      width: 100%;
+      align-items: stretch;
+    }
+
+    .bookmark-title {
+      font-size: 0.85em;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      height: 1.75em;
+      white-space: nowrap;
+    }
+
+    .bookmark-text {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .bookmark-info {
+      flex: 4 1 180px;
+      padding: 12px 14px 14px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .bookmark-image {
+      width: 33%;
+      flex: 1 1 180px;
+      display: block;
+      position: relative;
+      object-fit: cover;
+      border-radius: 1px;
+    }
+
+    .bookmark-description {
+      color: rgba(55, 53, 47, 0.6);
+      font-size: 0.75em;
+      overflow: hidden;
+      max-height: 4.5em;
+      word-break: break-word;
+    }
+
+    .bookmark-href {
+      font-size: 0.75em;
+      margin-top: 0.25em;
+    }
+
+    .sans {
+      font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, 'Apple Color Emoji', Arial, sans-serif, 'Segoe UI Emoji', 'Segoe UI Symbol';
+    }
+
+    .code {
+      font-family: 'SFMono-Regular', Menlo, Consolas, 'PT Mono', 'Liberation Mono', Courier, monospace;
+    }
+
+    .serif {
+      font-family: Lyon-Text, Georgia, ui-serif, serif;
+    }
+
+    .mono {
+      font-family: iawriter-mono, Nitti, Menlo, Courier, monospace;
+    }
+
+    .pdf .sans {
+      font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, 'Apple Color Emoji', Arial, sans-serif, 'Segoe UI Emoji', 'Segoe UI Symbol', 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP';
+    }
+
+    .pdf:lang(zh-CN) .sans {
+      font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, 'Apple Color Emoji', Arial, sans-serif, 'Segoe UI Emoji', 'Segoe UI Symbol', 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC';
+    }
+
+    .pdf:lang(zh-TW) .sans {
+      font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, 'Apple Color Emoji', Arial, sans-serif,
+        'Segoe UI Emoji', 'Segoe UI Symbol', 'Twemoji', 'Noto Color Emoji',
+        'Noto Sans CJK TC';
+    }
+
+    .pdf:lang(ko-KR) .sans {
+      font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont,
+        'Segoe UI', Helvetica, 'Apple Color Emoji', Arial, sans-serif,
+        'Segoe UI Emoji', 'Segoe UI Symbol', 'Twemoji', 'Noto Color Emoji',
+        'Noto Sans CJK KR';
+    }
+
+    .pdf .code {
+      font-family: Source Code Pro, 'SFMono-Regular', Menlo, Consolas,
+        'PT Mono', 'Liberation Mono', Courier, monospace, 'Twemoji',
+        'Noto Color Emoji', 'Noto Sans Mono CJK JP';
+    }
+
+    .pdf:lang(zh-CN) .code {
+      font-family: Source Code Pro, 'SFMono-Regular', Menlo, Consolas,
+        'PT Mono', 'Liberation Mono', Courier, monospace, 'Twemoji',
+        'Noto Color Emoji', 'Noto Sans Mono CJK SC';
+    }
+
+    .pdf:lang(zh-TW) .code {
+      font-family: Source Code Pro, 'SFMono-Regular', Menlo, Consolas,
+        'PT Mono', 'Liberation Mono', Courier, monospace, 'Twemoji',
+        'Noto Color Emoji', 'Noto Sans Mono CJK TC';
+    }
+
+    .pdf:lang(ko-KR) .code {
+      font-family: Source Code Pro, 'SFMono-Regular', Menlo, Consolas,
+        'PT Mono', 'Liberation Mono', Courier, monospace, 'Twemoji',
+        'Noto Color Emoji', 'Noto Sans Mono CJK KR';
+    }
+
+    .pdf .serif {
+      font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji',
+        'Noto Color Emoji', 'Noto Serif CJK JP';
+    }
+
+    .pdf:lang(zh-CN) .serif {
+      font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji',
+        'Noto Color Emoji', 'Noto Serif CJK SC';
+    }
+
+    .pdf:lang(zh-TW) .serif {
+      font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji',
+        'Noto Color Emoji', 'Noto Serif CJK TC';
+    }
+
+    .pdf:lang(ko-KR) .serif {
+      font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji',
+        'Noto Color Emoji', 'Noto Serif CJK KR';
+    }
+
+    .pdf .mono {
+      font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace,
+        'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP';
+    }
+
+    .pdf:lang(zh-CN) .mono {
+      font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace,
+        'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC';
+    }
+
+    .pdf:lang(zh-TW) .mono {
+      font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace,
+        'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC';
+    }
+
+    .pdf:lang(ko-KR) .mono {
+      font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace,
+        'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR';
+    }
+
+    .highlight-default {
+      color: rgba(55, 53, 47, 1);
+    }
+
+    .highlight-gray {
+      color: rgba(120, 119, 116, 1);
+      fill: rgba(145, 145, 142, 1);
+    }
+
+    .highlight-brown {
+      color: rgba(159, 107, 83, 1);
+      fill: rgba(187, 132, 108, 1);
+    }
+
+    .highlight-orange {
+      color: rgba(217, 115, 13, 1);
+      fill: rgba(215, 129, 58, 1);
+    }
+
+    .highlight-yellow {
+      color: rgba(203, 145, 47, 1);
+      fill: rgba(203, 148, 51, 1);
+    }
+
+    .highlight-teal {
+      color: rgba(68, 131, 97, 1);
+      fill: rgba(108, 155, 125, 1);
+    }
+
+    .highlight-blue {
+      color: rgba(51, 126, 169, 1);
+      fill: rgba(91, 151, 189, 1);
+    }
+
+    .highlight-purple {
+      color: rgba(144, 101, 176, 1);
+      fill: rgba(167, 130, 195, 1);
+    }
+
+    .highlight-pink {
+      color: rgba(193, 76, 138, 1);
+      fill: rgba(205, 116, 159, 1);
+    }
+
+    .highlight-red {
+      color: rgba(212, 76, 71, 1);
+      fill: rgba(225, 111, 100, 1);
+    }
+
+    .highlight-gray_background {
+      background: rgba(241, 241, 239, 1);
+    }
+
+    .highlight-brown_background {
+      background: rgba(244, 238, 238, 1);
+    }
+
+    .highlight-orange_background {
+      background: rgba(251, 236, 221, 1);
+    }
+
+    .highlight-yellow_background {
+      background: rgba(251, 243, 219, 1);
+    }
+
+    .highlight-teal_background {
+      background: rgba(237, 243, 236, 1);
+    }
+
+    .highlight-blue_background {
+      background: rgba(231, 243, 248, 1);
+    }
+
+    .highlight-purple_background {
+      background: rgba(244, 240, 247, 0.8);
+    }
+
+    .highlight-pink_background {
+      background: rgba(249, 238, 243, 0.8);
+    }
+
+    .highlight-red_background {
+      background: rgba(253, 235, 236, 1);
+    }
+
+    .block-color-default {
+      color: inherit;
+      fill: inherit;
+    }
+
+    .block-color-gray {
+      color: rgba(120, 119, 116, 1);
+      fill: rgba(145, 145, 142, 1);
+    }
+
+    .block-color-brown {
+      color: rgba(159, 107, 83, 1);
+      fill: rgba(187, 132, 108, 1);
+    }
+
+    .block-color-orange {
+      color: rgba(217, 115, 13, 1);
+      fill: rgba(215, 129, 58, 1);
+    }
+
+    .block-color-yellow {
+      color: rgba(203, 145, 47, 1);
+      fill: rgba(203, 148, 51, 1);
+    }
+
+    .block-color-teal {
+      color: rgba(68, 131, 97, 1);
+      fill: rgba(108, 155, 125, 1);
+    }
+
+    .block-color-blue {
+      color: rgba(51, 126, 169, 1);
+      fill: rgba(91, 151, 189, 1);
+    }
+
+    .block-color-purple {
+      color: rgba(144, 101, 176, 1);
+      fill: rgba(167, 130, 195, 1);
+    }
+
+    .block-color-pink {
+      color: rgba(193, 76, 138, 1);
+      fill: rgba(205, 116, 159, 1);
+    }
+
+    .block-color-red {
+      color: rgba(212, 76, 71, 1);
+      fill: rgba(225, 111, 100, 1);
+    }
+
+    .block-color-gray_background {
+      background: rgba(241, 241, 239, 1);
+    }
+
+    .block-color-brown_background {
+      background: rgba(244, 238, 238, 1);
+    }
+
+    .block-color-orange_background {
+      background: rgba(251, 236, 221, 1);
+    }
+
+    .block-color-yellow_background {
+      background: rgba(251, 243, 219, 1);
+    }
+
+    .block-color-teal_background {
+      background: rgba(237, 243, 236, 1);
+    }
+
+    .block-color-blue_background {
+      background: rgba(231, 243, 248, 1);
+    }
+
+    .block-color-purple_background {
+      background: rgba(244, 240, 247, 0.8);
+    }
+
+    .block-color-pink_background {
+      background: rgba(249, 238, 243, 0.8);
+    }
+
+    .block-color-red_background {
+      background: rgba(253, 235, 236, 1);
+    }
+
+    .select-value-color-pink {
+      background-color: rgba(245, 224, 233, 1);
+    }
+
+    .select-value-color-purple {
+      background-color: rgba(232, 222, 238, 1);
+    }
+
+    .select-value-color-green {
+      background-color: rgba(219, 237, 219, 1);
+    }
+
+    .select-value-color-gray {
+      background-color: rgba(227, 226, 224, 1);
+    }
+
+    .select-value-color-orange {
+      background-color: rgba(250, 222, 201, 1);
+    }
+
+    .select-value-color-brown {
+      background-color: rgba(238, 224, 218, 1);
+    }
+
+    .select-value-color-red {
+      background-color: rgba(255, 226, 221, 1);
+    }
+
+    .select-value-color-yellow {
+      background-color: rgba(253, 236, 200, 1);
+    }
+
+    .select-value-color-blue {
+      background-color: rgba(211, 229, 239, 1);
+    }
+
+    .checkbox {
+      display: inline-flex;
+      vertical-align: text-bottom;
+      width: 16;
+      height: 16;
+      background-size: 16px;
+      margin-left: 2px;
+      margin-right: 5px;
+    }
+
+    .checkbox-on {
+      background-image: url('data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E');
+    }
+
+    .checkbox-off {
+      background-image: url('data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E');
+    }
+  </style>
+</head>
+
+<body>
+  <article id="f4ded8ac-c1c9-4ad3-aa1a-83c3d562f642" class="page sans">
+    <header>
+      <h1 class="page-title">CQRS patterns</h1>
+    </header>
+    <div class="page-body">
+      <p id="c2d62f8c-ef0b-4ee9-a73a-ca2509844ddb" class="">
+        <a
+          href="https://tamnk74.github.io/blog/microservices/cqrs-patterns.html">https://tamnk74.github.io/blog/microservices/cqrs-patterns.html</a>
+      </p>
+
+      <p id="c6ad3d11-2371-4810-8ad9-3a29a1daa3ff" class="">
+        CQRS is one of the important pattern when querying between microservices. We can
+        use <strong>CQRS </strong>design pattern in order to avoid complex queries to get rid of inefficient joins. CQRS
+        stands for<strong> Command and Query Responsibility Segregation</strong>. Basically this pattern separates read
+        and update operations for a database.
+      </p>
+      <figure id="45d2dd0e-8448-4ebf-966d-011f681a0299" class="image"> <a href="cqrs-patterns/Untitled.png"><img
+            style="width: 837px" src="cqrs-patterns/Untitled.png" /></a>
+      </figure>
+      <p id="e97f9d67-bd22-4da2-a3f9-6514d88140ea" class=""> <strong>CQRS separates </strong>reads and writes into
+        <strong>different databases</strong>, Commands performs update data, Queries performs read data.
+      </p>
+      <p id="ce42320c-2d67-419d-9023-9ee3447be1cc" class=""> <strong>Commands </strong>should be actions with task-based
+        operations like “add item into shopping cart” or “checkout order”. So commands can be handle with message broker
+        systems that provide to process commands in async way.
+      </p>
+      <p id="9c8584b9-5050-4f5d-a154-34ec28ae00ba" class=""> <strong>Queries </strong>is never modify the database.
+        Queries always return the <strong>JSON</strong> data with <strong>DTO </strong>objects. By this way, we can
+        isolate the Commands and Queries.
+      </p>
+      <p id="0b8e867b-cbe1-46b3-9301-d44b16aa20b7" class=""> In order isolate Commands and Queries, its best practices
+        to separate read and write database with 2 database physically. By this way, if our application is
+        read-intensive that means reading more than writing, we can define custom data schema to optimized for queries.
+      </p>
+
+      <p id="138fd1f1-1d7a-4b95-9ac5-9e0bde5afad2" class=""> Normally, in monolithic applications, most of time we have
+        1 database and this database should respond both query and update operations. That means a database is both
+        working for <strong>complex join queries</strong>, and also <strong>perform CRUD</strong> operations. But if the
+        application goes more complex this query and crud operations will be also is going to be un-manageable
+        situation.
+      </p>
+      <p id="5562d3b8-706f-4635-a8f8-b18d9f22b38e" class=""> In example of reading database, if your application
+        required some query that needs to <strong>join more than 10 table</strong>, this will lock the database due to
+        latency of <strong>query computation</strong>. Also if we give example of writing database, when performing crud
+        operations we would need to make complex validations and process long business logics, so this
+        will <strong>cause </strong>to <strong>lock database </strong>operations.
+      </p>
+
+      <p id="458a08af-0612-447a-bdc5-3744841edfb5" class=""> So reading and writing database has different approaches
+        that we can define different strategy to handle that operation. In order to that <strong>CQRS </strong>offers to
+        use “<strong>separation of concerns</strong>” <strong>principles </strong>and separate reading database and the
+        writing database with 2 database. By this way we can even use different database
+        for <strong>reading </strong>and <strong>writing </strong>database types like using no-sql for reading and using
+        relational database for crud operations.
+      </p>
+
+      <p id="ea97fa8c-cc04-4af0-8cd5-21c71435c30f" class=""> Another consideration is we should understand our
+        application use case behaviors, if our application is mostly reading use cases and not writing so much, we can
+        say our application is <strong>read-incentive application</strong>. So we should design our architecture as per
+        our reading requirements with focusing reading databases.
+      </p>
+      <p id="3503bcd7-cc61-4246-81b4-ff09ed96a86c" class=""> So we can say that <strong>CQRS separates </strong>reads
+        and writes into <strong>different databases</strong>, Commands performs update data, Queries performs read data.
+      </p>
+      <p id="611f93a1-42c1-46eb-be1b-76026a51bdd5" class=""> <strong>Commands </strong>should be actions with task-based
+        operations like “add item into shopping cart” or “checkout order”. So commands can be handle with message broker
+        systems that provide to process commands in async way.
+      </p>
+      <p id="d6993e75-bbe2-421d-a261-c767110e6647" class=""> <strong>Queries </strong>is never modify the database.
+        Queries always return the JSON data with DTO objects. By this way, we can isolate the Commands and Queries.
+      </p>
+
+      <p id="e266b80f-2b65-404a-8267-17703c1f78c7" class=""> In order
+        isolate <strong>Commands </strong>and <strong>Queries</strong>, its best practices to separate read and write
+        database with<strong> 2 database physically</strong>. By this way, if our application is read-intensive that
+        means reading more than writing, we can define custom data schema to optimized for queries.
+      </p>
+      <p id="7a5cdf69-2882-4071-948a-884539630bfc" class=""> <strong>Materialized view pattern </strong>is good example
+        to implement reading databases. Because by this way we can avoid complex joins and mappings with pre defined
+        fine-grained data for query operations.
+      </p>
+      <figure id="f5c256e5-2077-47a8-b3e6-a3235920ec0c" class="image"> <a href="cqrs-patterns/Untitled%201.png"><img
+            style="width: 700px" src="cqrs-patterns/Untitled%201.png" /></a>
+      </figure>
+      <p id="89ec5c0e-06b9-463d-af09-df643224d4c5" class=""> By this <strong>isolation</strong>, we can even use
+        different database for reading and writing database types like using<strong> no-sql document
+          database </strong>for reading and using relational database for crud operations.
+      </p>
+      <h1 id="136acdd3-17fe-43cb-ae84-3986486f096d" class=""> <strong>Instagram Database Architecture</strong>
+      </h1>
+      <p id="aa8ade71-ec92-4b23-ae1f-298693b37a63" class=""> This is so popular on microservices architecture also let
+        me give an example of <strong>Instagram architecture</strong>. Instagram basically uses two database systems,
+        one is relational database <strong>PostgreSQL </strong>and the other is no-sql database
+        — <strong>Cassandra</strong>.
+      </p>
+      <figure id="a585736d-f25d-480a-a2b3-66e171d24787" class="image"> <a href="cqrs-patterns/Untitled%202.png"><img
+            style="width: 836px" src="cqrs-patterns/Untitled%202.png" /></a>
+      </figure>
+      <p id="2f4c3e04-ce09-4439-b080-4e978577b3b3" class=""> So that means Instagram uses <strong>no-sql
+          Cassandra</strong> <strong>database </strong>for user stories that is <strong>read-incentive data</strong>.
+        And using relational PostgreSQL database for User Information bio update. This is one of the example of CRQS
+        approaches.
+      </p>
+      <h1 id="4b0b0cec-bfc8-4ddf-beeb-0919085ce1c0" class=""> <strong>How to Sync Databases with CQRS ?</strong>
+      </h1>
+      <p id="3fb703e1-1f0b-4b7a-bed0-a307290bc26d" class=""> But when we separate read and write databases in 2
+        different database, the main consideration is sync these two database in a proper way.
+      </p>
+      <p id="91c9e2dd-4097-4cfe-966c-7802a830c54d" class=""> So we should<strong> sync these 2 databases</strong> and
+        keep sync always.
+      </p>
+      <p id="34db1293-ae7d-49e4-a0e0-e3317215512f" class=""> This can be solve by using <strong>Event-Driven
+          Architecture</strong>. According to <strong>Event Driven Architecture</strong>, when something update in write
+        database, it will publish an update event with using <strong>message broker </strong>systems and this will
+        consume by the read database and <strong>sync data </strong>according to latest changes.
+      </p>
+      <p id="0630f619-dbf3-4284-88a1-cd27d81f6799" class=""> But this solution creates
+        a <strong>consistency </strong>issue, because since we have implemented <strong>async
+          communication</strong> with message brokers, the data would not be reflected immediately.
+      </p>
+      <figure id="dcc2d8a1-f628-4bfd-a938-be4c1b2688ff" class="image"> <a href="cqrs-patterns/Untitled%203.png"><img
+            src="cqrs-patterns/Untitled%203.png" /></a>
+      </figure>
+      <p id="4c91337a-70f9-43ad-837a-421ad08c3f66" class=""> This will operates the principle of “<strong>eventual
+          consistency</strong>”. The read database eventually synchronizes with the <strong>write database</strong>, and
+        it can be take some time to update read database in the <strong>async </strong>process. We discuss eventual
+        consistency in the next sections.
+      </p>
+      <p id="2010565b-ee7d-49c4-8295-8dc80246f5bb" class=""> So if we come back to our read and write databases
+        in <strong>CQRS pattern</strong>, When starting your design, you can take read database from replicas of write
+        database. By this way we can use different <strong>read-only replicas</strong> with applying Materialized view
+        pattern can significantly increase query performance.
+      </p>
+      <p id="26382b2f-ae84-46e6-8b54-2ff960b7bc1a" class=""> Also when we <strong>separated
+          read </strong>and <strong>write </strong>databases, it means we can scale them independently. That means if
+        our application is read-incentive, I mean if it much more query that write, than we can scale only reading
+        databases very fast.
+      </p>
+      <p id="00d68373-0fa8-4080-9924-2724aa12ed0c" class=""> <strong>CQRS </strong>comes with <strong>separating
+          commands </strong>and <strong>query databases</strong>. So this required to sync both 2 databases with
+        offering event-driven architectures. And with <strong>Event</strong>-<strong>driven architectures </strong>there
+        are some new patterns and practices should be consider when applying CQRS.
+      </p>
+      <p id="d1430d2c-91c9-4520-82c8-db9595fbd286" class=""> Event Sourcing pattern is the first pattern we should
+        consider to use with CQRS. Mostly CQRS is using with “<strong>Event Sourcing</strong> <strong>pattern</strong>”
+        in Event-Driven Architectures. So after we have learned the <strong>CQRS </strong>we should learn “Event
+        Sourcing pattern”, because <strong>CQRS </strong>and “<strong>Event Sourcing pattern</strong>” is the best
+        practice to use both of them.
+      </p>
+      <h1 id="035e73f2-e12e-4e31-8d0f-b9d987401e89" class=""> <strong>Design the Architecture — CQRS, Event Sourcing,
+          Eventual Consistency, Materialized View</strong>
+      </h1>
+      <p id="5be3381f-7224-4d52-abd9-50f2da036392" class=""> We are going to Design
+        our <strong>e-commerce</strong> Architecture with applying CQRS Pattern.
+      </p>
+      <p id="6af1d4bd-3804-4b18-8cda-e9f9b5fae082" class=""> Now We can Design our Ordering microservices databases
+      </p>
+      <figure id="4ccd0d42-8ec7-46cf-833f-c8737837a1bf" class="image"> <a href="cqrs-patterns/Untitled%204.png"><img
+            style="width: 700px" src="cqrs-patterns/Untitled%204.png" /></a>
+      </figure>
+      <p id="6e5b7995-dcb2-4fda-8ac3-2f8e237d94bf" class=""> I am going to <strong>split 2
+          databases</strong> for <strong>Ordering </strong>microservices1 for the <strong>write </strong>database
+        for <strong>relational </strong>concerns2 for the <strong>read </strong>database
+        for <strong>querying </strong>concerns
+      </p>
+      <p id="8b86d828-7ea1-4149-b6de-4d729eca4e6d" class=""> So when user create or update an order, I am going to use
+        relational write database, and when user <strong>query order </strong>or order history, I am going to use no-sql
+        read database. and make consistent them when syncing 2 databases with using message broker system with applying
+        <strong>publish/subscribe pattern.</strong>
+      </p>
+      <p id="3ed9a811-11ef-44df-ae36-8b89491f60be" class=""> Now we can consider <strong>tech stack </strong>of these
+        databases,
+      </p>
+      <p id="2943f3df-02c1-43cc-9b75-7cdbb86352b0" class=""> I am going to use<strong> SQL Server </strong>for
+        relational writing database, and using <strong>Cassandra </strong>for no-sql read database. Of course we will
+        use Kafka for syncing these 2 database with pub/sub <strong>Kafka </strong>topic exchanges.
+      </p>
+      <p id="debd5e00-6760-4f2e-9f46-47d1d106cb72" class=""> So we should <strong>evolve our architecture </strong>with
+        applying <strong>other Microservices Data Patterns </strong>in order to <strong>accommodate business
+          adaptations</strong> faster time-to-market and handle larger requests.
+      </p>
+    </div>
+  </article>
+</body>
+
+</html>
