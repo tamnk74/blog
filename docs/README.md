@@ -22,6 +22,7 @@
 - [Sticky](https://tamnk74.github.io/blog/html_css/sticky.html)
 - [Sticky 2](https://tamnk74.github.io/blog/html_css/sticky2.html)
 - [Sticky 3](https://tamnk74.github.io/blog/html_css/sticky3.html)
+- [Frontend challenges](https://app.bigdevsoon.me/challenges)
 
 ### Javascript
 
