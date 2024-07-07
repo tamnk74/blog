@@ -28,6 +28,11 @@
 
 ### Typescript
 
+## Security
+
+- [OWASP Top 10 proactive controls](https://snyk.io/blog/owasp-top-10-proactive-controls-2020/)
+
+
 ### Design system
 
 ## Devops
