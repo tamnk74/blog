@@ -1,4 +1,8 @@
-# Topics
+<
+
+
+
+<h1><a href="https://tamnk74.github.io/blog/">Blog</a></h1>
 
 <details><summary><b>Software Architect</b></summary>
 <p>
@@ -118,8 +122,11 @@
 </p>
 </details>
 
-<details><summary><b>Linux</b></summary>
+<details><summary><b>Design pattern</b></summary>
 <p>
+  <ul>
+    <li><a href="https://github.com/kamranahmedse/design-patterns-for-humans">Desgin pattern for human</a></li>
+  </ul>
 </p>
 </details>
 
@@ -141,6 +148,11 @@
 
 <details><summary><b>Others</b></summary>
 <p>
+  <ul>
+    <li><a href="https://github.com/sdmg15/Best-websites-a-programmer-should-visit">Best-websites-a-programmer-should-visit</a></li>
+  </ul>
+
+  
 </p>
 </details>
 
