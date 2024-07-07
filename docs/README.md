@@ -1,7 +1,3 @@
-<
-
-
-
 <h1><a href="https://tamnk74.github.io/blog/">Blog</a></h1>
 
 <details><summary><b>Software Architect</b></summary>
