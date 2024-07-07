@@ -7,10 +7,13 @@
 
 <details><summary><b>Microservices</b></summary>
 <p>
-  ## Microservices
-
-- [CQRS pattern](https://tamnk74.github.io/blog/microservices/cqrs-patterns.html)
-- [Saga pattern](https://tamnk74.github.io/blog/microservices/saga-pattern.html)
+  
+  ## Microservice pattern
+  
+<ul>
+  <li><a href="https://tamnk74.github.io/blog/microservices/cqrs-patterns.html">CQRS pattern</a></li>
+  <li><a href="https://tamnk74.github.io/blog/microservices/saga-pattern.html">Saga pattern</a></li>
+</ul>
 </p>
 </details>
 
@@ -30,7 +33,10 @@
 
 <details><summary><b>Database</b></summary>
 <p>
-  - [DBMS architecture overview](https://tamnk74.github.io/blog/database/dbms_architecture_overview.html)
+
+<ul>
+  <li><a href="https://tamnk74.github.io/blog/database/dbms_architecture_overview.html">DBMS architecture overview</a></li>
+</ul>
 </p>
 </details>
 
@@ -39,27 +45,31 @@
 
 <details><summary><b>Front-End</b></summary>
 <p>
-
-- [design-resources-for-developers](https://github.com/bradtraversy/design-resources-for-developers)
-- [Awesome-Design-Tools](https://github.com/goabstract/Awesome-Design-Tools)
-- [design-resources-for-developers](https://github.com/bradtraversy/design-resources-for-developers)
-- 
+<ul>
+  <li><a href="https://github.com/bradtraversy/design-resources-for-developers">design-resources-for-developers</a></li>
+  <li><a href="https://github.com/goabstract/Awesome-Design-Tools">Awesome-Design-Tools</a></li>
+  <li><a href="https://github.com/bradtraversy/design-resources-for-developers">design-resources-for-developers</a></li>
+</ul>
+  
 ### UI lib
-- [UI Design Daily](https://www.uidesigndaily.com/)
+
+<ul>
+  <li><a href="https://www.uidesigndaily.com">UI Design Daily</a></li>
+</ul>
 </p>
 
 <details><summary><b>Html CSS</b></summary>
 <p>
-  
-### Html CSS
-  
-- [Flexbox 1](https://tamnk74.github.io/blog/html_css/flexbox.html)
-- [Image - srcset](https://tamnk74.github.io/blog/html_css/index.html)
-- [Sticky](https://tamnk74.github.io/blog/html_css/sticky.html)
-- [Sticky 2](https://tamnk74.github.io/blog/html_css/sticky2.html)
-- [Sticky 3](https://tamnk74.github.io/blog/html_css/sticky3.html)
-- [Frontend challenges](https://app.bigdevsoon.me/challenges)
 
+<ul>
+  <li><a href="https://tamnk74.github.io/blog/html_css/flexbox.html">Flexbox 1</a></li>
+  <li><a href="https://tamnk74.github.io/blog/html_css/index.html">Image - srcset</a></li>
+  <li><a href="https://tamnk74.github.io/blog/html_css/sticky.html">Sticky</a></li>
+  <li><a href="https://tamnk74.github.io/blog/html_css/sticky2.html">Sticky 2</a></li>
+  <li><a href="https://tamnk74.github.io/blog/html_css/sticky3.html">Sticky 3</a></li>
+  <li><a href="https://app.bigdevsoon.me/challenges">Frontend challenges</a></li>
+</ul>
+  
 </p>
 </details>
 
@@ -80,11 +90,10 @@
 
 <details><summary><b>Security</b></summary>
 <p>
-  
-## Security
 
-- [OWASP Top 10 proactive controls](https://snyk.io/blog/owasp-top-10-proactive-controls-2020/)
-
+<ul>
+<li><a href="https://snyk.io/blog/owasp-top-10-proactive-controls-2020">OWASP Top 10 proactive controls</a></li>
+</ul>
 </p>
 </details>
 
@@ -92,21 +101,19 @@
 <p>
   
 ### Design system
-- [System design](https://github.com/karanpratapsingh/system-design)
-- [System design 101](https://github.com/ByteByteGoHq/system-design-101)
-- [System design Resource](https://github.com/InterviewReady/system-design-resources)
-- [System design primer](https://github.com/donnemartin/system-design-primer)
-- [Awesome software architecture](https://github.com/mehdihadeli/awesome-software-architecture)
+<ul>
+<li><a href="https://github.com/karanpratapsingh/system-design">System design</a></li>
+<li><a href="https://github.com/ByteByteGoHq/system-design-101">System design 101</a></li>
+<li><a href="https://github.com/InterviewReady/system-design-resources">System design Resource</a></li>
+<li><a href="https://github.com/donnemartin/system-design-primer">System design primer</a></li>
+<li><a href="https://github.com/mehdihadeli/awesome-software-architecture">Awesome software architecture</a></li>
+<li><a href="https://github.com/arpit20adlakha/Data-Structure-Algorithms-LLD-HLD">Data-Structure-Algorithms-LLD-HLD</a></li>
+</ul>
 
 </p>
 </details>
 
 <details><summary><b>Devops</b></summary>
-<p>
-</p>
-</details>
-
-<details><summary><b>Design system</b></summary>
 <p>
 </p>
 </details>
@@ -125,8 +132,19 @@
 <p>
 </p>
 </details>
-### AWS
 
-## Others
 
-### Clean Code
+<details><summary><b>AWS</b></summary>
+<p>
+</p>
+</details>
+
+<details><summary><b>Others</b></summary>
+<p>
+</p>
+</details>
+
+<details><summary><b>Clean Code</b></summary>
+<p>
+</p>
+</details>
