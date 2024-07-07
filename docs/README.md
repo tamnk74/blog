@@ -96,6 +96,7 @@
 - [System design 101](https://github.com/ByteByteGoHq/system-design-101)
 - [System design Resource](https://github.com/InterviewReady/system-design-resources)
 - [System design primer](https://github.com/donnemartin/system-design-primer)
+- [Awesome software architecture](https://github.com/mehdihadeli/awesome-software-architecture)
 
 </p>
 </details>
