@@ -8,12 +8,19 @@
 <details><summary><b>Microservices</b></summary>
 <p>
   
-  ## Microservice pattern
+### Microservice pattern
   
 <ul>
   <li><a href="https://tamnk74.github.io/blog/microservices/cqrs-patterns.html">CQRS pattern</a></li>
   <li><a href="https://tamnk74.github.io/blog/microservices/saga-pattern.html">Saga pattern</a></li>
 </ul>
+
+ ### Microservice Books
+<ul>
+  <li><a href="https://info.microsoft.com/rs/157-GQE-382/images/EN-CNTNT-eBook-DesigningDistributedSystems.pdf">EN-CNTNT-eBook-DesigningDistributedSystems.pdf</a></li>
+
+</ul>
+
 </p>
 </details>
 
